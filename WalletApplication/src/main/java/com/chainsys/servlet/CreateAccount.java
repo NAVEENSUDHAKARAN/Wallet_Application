@@ -51,6 +51,7 @@ public class CreateAccount extends HttpServlet {
 		
 		String choice = request.getParameter("action");
 		System.out.println("Choice : " + choice);
+
 		if(choice.equals("createAccount"))
 		{
 			String fname = request.getParameter("firstName");
@@ -165,31 +166,44 @@ public class CreateAccount extends HttpServlet {
 			System.out.println("_____id : " + id);
 			
 			try {
-				String email = manager.getEmail(id);
-				System.out.println("Email : " + email);
-				String[] splitedEmail = email.split("@");
-				String walletId = splitedEmail[0] + "@digipay";
-				System.out.println("WalletID : " + walletId);
-				
 				if(!manager.checkWalletId(id))
 				{
-					walletInfo.setId(id);
-					walletInfo.setWalletId(walletId);
+					String email = manager.getEmail(id);
+					System.out.println("Email : " + email);
+					String[] splitedEmail = email.split("@");
+					String walletId = splitedEmail[0] + "@digipay";
+					System.out.println("WalletID : " + walletId);
 					
-					manager.createWalletId(walletInfo);
-					request.getRequestDispatcher("LandingPage.jsp").forward(request, response);
+					request.setAttribute("walletID", walletId);
+					if(!manager.checkWalletId(id))
+					{
+						walletInfo.setId(id);
+						walletInfo.setWalletId(walletId);
+						
+						manager.createWalletId(walletInfo);
+						request.getRequestDispatcher("LandingPage.jsp").forward(request, response);
+					}
+					
 				}
-				else
+				else	
 				{
-					System.out.println("Account Already Exist");
-					request.getRequestDispatcher("TransferPage.jsp").forward(request, response);
+					
+					
+					  System.out.println("Account Already Exist");
+					  request.getRequestDispatcher("WalletTransferPage.jsp").forward(request, response);
+					 
 				}
-				
-				
-				
 			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ServletException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

@@ -6,22 +6,16 @@
 <head>
 <meta charset="ISO-8859-1">
 
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-	rel="stylesheet"
-	integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-	crossorigin="anonymous">
-<script defer
-	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-	integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-	crossorigin="anonymous"></script>
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+	
+<script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+	
+	
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script
-	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 
 <title>Home</title>
@@ -368,7 +362,7 @@ to {
 		response.sendRedirect("LoginPage.jsp");
 		
 	}
- 	response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); 
+  	response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); 
 	response.setHeader("Pragma", "no-cache"); 
 	response.setHeader("Expires", "0");
 	
@@ -406,12 +400,10 @@ to {
 				<%} else{  
 					HttpSession id = request.getSession();
 					int userId = (int) id.getAttribute("userid");
-					
 				%>
 						<div id="walletBalanceDiv">
 							<span style="font-size: medium;small;">WalletBalance</span><br>
-							<img alt="image not working" src="images/walleticon.png" width="35px" height="35px"><input type="text" name="walletBalance" style="width: 70px; position:relative; border:none; left: 10px;" value="<%= manager.getWalletBalance(userId) %>"  >
-						
+							<img alt="image not working" src="images/walleticon.png" width="35px" height="35px"><input type="text" name="walletBalance" style="width: 130px; position:relative; border:none; left: 10px;" value="<%= manager.getWalletBalance(userId) %>" readonly="readonly" >
 						</div>	
 				<%} %>
 				<%-- <p id="welcomeNote" >Hi, <%= session.getAttribute("userName") %></p> --%>
@@ -435,10 +427,10 @@ to {
 								aria-expanded="false"> <img src="images/profilelogo.png" width="25px" height="25px" alt="Profile" class="profile-icon"><%= name %></button>
 								<% 
 								if(session.getAttribute("userName") != null){
+									
 								%>
 								<div id="dropdownDiv">
-									<ul id="dropdown-menu" class="dropdown-menu"
-									aria-labelledby="dropdownMenuButton">
+									<ul id="dropdown-menu" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 									<li><a class="dropdown-item" href="ProfilePage.jsp">Profile</a></li>
 									<form action="Logout" method="post">
 									<li><button class="dropdown-item" >Logout</button></li>
@@ -510,7 +502,9 @@ to {
 						</h5>
 						<p class="card-text">to any Digipay User or Bank Account.</p>
 						<!-- <a onclick="openTransferDialog()" style="background-color: #3c445c; border-color: black;" class="btn btn-primary">Transfer</a>  -->
-							<button onclick="openTransferDialog()" 
+							
+							<button
+							 onclick="openTransferDialog()" 
 							style="background-color: #3c445c; border-color: black;"
 							class="btn btn-primary">Transfer</button>
 
@@ -576,52 +570,58 @@ to {
 </body>
 <script>
 function openTransferDialog() {
-	
-		Swal.fire({
-        icon: 'info',
-        title: 'Enter Account Number',
-        html: '<form id="transferForm" action="CreateAccount" method="post">' +
-              '<input type="hidden" name="action" value="transfer">' +
-              '<input id="amountInput" class="swal2-input" name="accountNumber" type="text" placeholder="Enter Account Number">' +
-              '</form>',
-        showCancelButton: true,
-        confirmButtonText: 'Ok',
-        cancelButtonText: 'Cancel',
-        showLoaderOnConfirm: true,
-        preConfirm: () => {
-            const amount = document.getElementById('amountInput').value;
-            console.log('Account Number:', amount);
+	 var valueToSend = "transfer";
+	$.ajax({
+        url: "CreateAccount",
+        method: "post",
+        data:{
+        	action: valueToSend
+        },
+        success: function(response) {
+            console.log("AJAX success");
+            window.location.href = "WalletTransferPage.jsp";
+        },
+        error: function(xhr, status, error) {
+            console.error("AJAX error:", error);
             
-            return amount;
+            Swal.fire({
+                icon: 'info',
+                title: 'Enter Account Number',
+                html: '<form id="transferForm" action="CreateAccount" method="post">' +
+                    '<input type="hidden" name="action" value="transfer">' +
+                    '<input id="amountInput" class="swal2-input" name="accountNumber" type="text" placeholder="Enter Account Number">' +
+                    '</form>',
+                showCancelButton: true,
+                confirmButtonText: 'Ok',
+                cancelButtonText: 'Cancel',
+                showLoaderOnConfirm: true,
+                preConfirm: () => {
+                    const amount = document.getElementById('amountInput').value;
+                    console.log('Account Number:', amount);
+                    return amount;
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                   
+                    document.getElementById('transferForm').submit();
+                }
+            });
         }
-    }).then((result) => {
-        if (result.isConfirmed) {
-            document.getElementById('transferForm').submit();
-        }
+
     });
-    
-    document.getElementById('transferForm').addEventListener('submit', function(event) {
-        event.preventDefault(); 
-        
-        Swal.clickConfirm();
-    });
-    
- 
 }
 
+document.addEventListener('DOMContentLoaded', function() {
+    var dropdownToggle = document.getElementById('dropdownMenuButton');
+    var dropdownMenu = document.querySelector('.dropdown-menu');
 
-document.addEventListener("DOMContentLoaded", function() {
-    var dropdownToggle = document.getElementById("dropdownMenuButton");
-    var dropdownMenu = document.querySelector(".dropdown-menu");
-
-    dropdownToggle.addEventListener("click", function() {
-        dropdownMenu.classList.toggle("show");
+    dropdownToggle.addEventListener('click', function() {
+        dropdownMenu.classList.toggle('show');
     });
 
-    
-    window.addEventListener("click", function(event) {
+    window.addEventListener('click', function(event) {
         if (!dropdownToggle.contains(event.target)) {
-            dropdownMenu.classList.remove("show");
+            dropdownMenu.classList.remove('show');
         }
     });
 });

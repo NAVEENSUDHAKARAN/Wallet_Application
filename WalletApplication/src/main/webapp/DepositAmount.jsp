@@ -73,46 +73,47 @@
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" required><br><br>
             
-            <input type="submit" value="Submit">
+            <input type="submit" value="Submit"><br><br>
+             <input type="submit" value="Back" onclick="window.location.href='LandingPage.jsp'" >
         </form>
     </div>
     <script>  
     <% 
-String invalidateMessage = (String) request.getAttribute("invalidateMessage");
-String balance = (String) request.getAttribute("balance");
-
-if(invalidateMessage != null && !invalidateMessage.isEmpty()) { 
-%>
-
-Swal.fire({
-    icon: 'warning',
-    title: '<%= invalidateMessage %>',
-    showConfirmButton: true,
-    confirmButtonText: 'OK',
-    confirmButtonColor: '#3c445c',
-}).then((result) => {
-
-    if (result.isConfirmed) {
-        window.location.href = 'DepositAmount.jsp';
-    }
-});
-
-<% } else if(balance != null && !balance.isEmpty()) { %>
-
-Swal.fire({
-    icon: 'success',
-    title: 'Amount Deposited Successfully. Available Balance is: <%= balance %>',
-    showConfirmButton: true,
-    confirmButtonText: 'OK',
-    confirmButtonColor: '#3c445c',
-}).then((result) => {
-   
-    if (result.isConfirmed) {
-        window.location.href = 'LandingPage.jsp';
-    }
-});
-
-<% } %>
+		String invalidateMessage = (String) request.getAttribute("invalidateMessage");
+		String balance = (String) request.getAttribute("balance");
+		
+		if(invalidateMessage != null && !invalidateMessage.isEmpty()) { 
+		%>
+		
+		Swal.fire({
+		    icon: 'warning',
+		    title: '<%= invalidateMessage %>',
+		    showConfirmButton: true,
+		    confirmButtonText: 'OK',
+		    confirmButtonColor: '#3c445c',
+		}).then((result) => {
+		
+		    if (result.isConfirmed) {
+		        window.location.href = 'DepositAmount.jsp';
+		    }
+		});
+		
+		<% } else if(balance != null && !balance.isEmpty()) { %>
+		
+		Swal.fire({
+		    icon: 'success',
+		    title: 'Amount Deposited Successfully. Available Balance is: <%= balance %>',
+		    showConfirmButton: true,
+		    confirmButtonText: 'OK',
+		    confirmButtonColor: '#3c445c',
+		}).then((result) => {
+		   
+		    if (result.isConfirmed) {
+		        window.location.href = 'LandingPage.jsp';
+		    }
+		});
+		
+		<% } %>
     </script>
 </body>
 </html>

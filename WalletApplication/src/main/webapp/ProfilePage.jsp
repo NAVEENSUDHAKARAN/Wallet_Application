@@ -27,7 +27,7 @@
             padding: 20px;
         }
         h2 {
-            color: #007bff;
+            color: #3c445c;
             margin-bottom: 20px;
             text-align: center;
         }
@@ -69,7 +69,7 @@
             cursor: pointer;
         }
         input[type="submit"] {
-            background-color: #007bff;
+            background-color: #3c445c;
             color: #fff;
             border: none;
             border-radius: 5px;
@@ -80,7 +80,7 @@
             flex-basis: 100%;
         }
         input[type="submit"]:hover {
-            background-color: #0056b3;
+            background-color: #3c445c;
         }
     </style>
 </head>
