@@ -440,13 +440,14 @@ public boolean checkPassword(int userId, String password) throws ClassNotFoundEx
 		ConnectUtil connect = new ConnectUtil();
 		Connection connection = connect.getConnection();
 		
-		String query = "insert into wallets (wallet_id, user_id, balance) value (?,?,?)";
+		String query = "insert into wallets (wallet_id, user_id, balance,qr) value (?,?,?,?)";
 		
 		PreparedStatement prepareStatement = connection.prepareStatement(query);
 		
 		prepareStatement.setString(1, walletInfo.getWalletId());
 		prepareStatement.setInt(2, walletInfo.getId());
 		prepareStatement.setInt(3, 0);
+		prepareStatement.setBytes(4, walletInfo.getImage());
 		
 		int rows = prepareStatement.executeUpdate();
 
@@ -616,6 +617,7 @@ public boolean checkPassword(int userId, String password) throws ClassNotFoundEx
 		        while (resultSet.next()) {
 		        	WalletIdInfo walletDetails = new WalletIdInfo();
 		        	walletDetails.setWalletId(resultSet.getString("wallet_id"));
+		        	walletDetails.setImage("qr");
 		        	walletDetailsList.add(walletDetails);
 		 
 		        }

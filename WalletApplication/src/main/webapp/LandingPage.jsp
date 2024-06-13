@@ -518,7 +518,7 @@ to {
 						<h5 class="card-title">Special title treatment</h5>
 						<p class="card-text">With supporting text below as a natural
 							lead-in to additional content.</p>
-						<a href="#"
+						<a href="MobileTransaction.jsp"
 							style="background-color: #3c445c; border-color: black;"
 							class="btn btn-primary">Go somewhere</a>
 					</div>
@@ -570,6 +570,7 @@ to {
 </body>
 <script>
 function openTransferDialog() {
+
 	 var valueToSend = "transfer";
 	$.ajax({
         url: "CreateAccount",
@@ -579,7 +580,16 @@ function openTransferDialog() {
         },
         success: function(response) {
             console.log("AJAX success");
-            window.location.href = "WalletTransferPage.jsp";
+ 			
+            <%
+            Integer userId = (Integer) session.getAttribute("userid");
+            if (userId != null) {
+            %>
+                
+                window.location.href = "WalletTransferPage.jsp?id=<%= userId %>";
+           <% } %>
+        	 
+           <%--  window.location.href = "WalletTransferPage.jsp?id=<%= (int) session.getAttribute("userid") %>"; --%>
         },
         error: function(xhr, status, error) {
             console.error("AJAX error:", error);

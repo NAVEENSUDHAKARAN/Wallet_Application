@@ -44,14 +44,16 @@ public class Transfers extends HttpServlet {
 		//doGet(request, response);
 		
 		System.out.println("Transfers Post Method");
-		HttpSession getSession = request.getSession();
-		int id = (int) getSession.getAttribute("userid");
+		
 		
 		String choice = request.getParameter("action");
 		System.out.println("Choice : " + choice);
 		
 		if(choice.equals("accountTransfer"))
 		{
+			HttpSession getSession = request.getSession();
+			int id = (int) getSession.getAttribute("userid");
+			
 			String receiverId = request.getParameter("receiverWalletID");
 			System.out.println("rec ID: " + receiverId);
 			double amountToSend = Double.parseDouble(request.getParameter("amountToSend"));
@@ -96,6 +98,7 @@ public class Transfers extends HttpServlet {
 				e.printStackTrace();
 			}
 		}else if(choice.equals("walletTransfer")){
+			int id = Integer.parseInt(request.getParameter("id"));
 			String senderId = request.getParameter("senderWalletId");
 			System.out.println("SenderID : " + senderId);
 			String receiverId = request.getParameter("receiverWalletId");

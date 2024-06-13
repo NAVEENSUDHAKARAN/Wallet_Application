@@ -2,6 +2,7 @@ package com.chainsys.servlet;
 
 import java.io.IOException;
 import java.lang.ProcessHandle.Info;
+import java.net.InetAddress;
 import java.sql.SQLException;
 
 import javax.servlet.ServletException;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.chainsys.dao.DynamicQR;
 import com.chainsys.dao.ServerManager;
 import com.chainsys.model.BankAccountInfo;
 import com.chainsys.model.UserInfo;
@@ -177,8 +179,14 @@ public class CreateAccount extends HttpServlet {
 					request.setAttribute("walletID", walletId);
 					if(!manager.checkWalletId(id))
 					{
+						InetAddress localhost = InetAddress.getLocalHost();
+				        System.out.println("Your IP Address: " + localhost.getHostAddress());
+				        DynamicQR.generate_qr(manager.getUserName(id),localhost.getHostAddress()+":8080/WalletApplication/MobileTransaction.jsp?id=" + id+"&walletId="+ walletId,walletInfo);
+				       				        
 						walletInfo.setId(id);
 						walletInfo.setWalletId(walletId);
+						
+						System.out.println("setID pojo ------> " + walletInfo.getId());
 						
 						manager.createWalletId(walletInfo);
 						request.getRequestDispatcher("LandingPage.jsp").forward(request, response);

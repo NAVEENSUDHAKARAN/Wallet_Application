@@ -4,6 +4,15 @@ public class WalletIdInfo {
 
 	String walletId;
 	int id;
+	byte[] image;
+
+	
+	public byte[] getImage() {
+		return image;
+	}
+	public void setImage(byte[] image) {
+		this.image = image;
+	}
 	public String getWalletId() {
 		return walletId;
 	}

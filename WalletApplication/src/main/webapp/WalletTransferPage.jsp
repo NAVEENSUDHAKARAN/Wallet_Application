@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="com.chainsys.model.WalletIdInfo" %>
 <%@ page import="com.chainsys.dao.ServerManager" %>
+<%@ page import="com.chainsys.dao.DynamicQR" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="java.net.InetAddress" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -79,25 +81,64 @@
             margin: 0 auto;
             margin-bottom: 20px;
         }
+        @media only screen and (max-width: 600px) {
+    /* Adjustments for mobile phones */
+    .main-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .left-container,
+    .container {
+        width: 100%;
+        margin: 0;
+    }
+    
+    .left-container {
+        padding: 10px;
+    }
+    
+    .logo {
+        margin-bottom: 10px;
+    }
+    
+    .form-group {
+        margin-bottom: 10px;
+    }
+    
+    input[type="text"],
+    input[type="password"],
+    .submit-button,
+    .cancel-button {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+}
+        
+        
     </style>
 </head>
 <body>
  				<%
-                HttpSession walletTransfer = request.getSession();
-                int id = (int) walletTransfer.getAttribute("userid");
+ 				int id = Integer.parseInt(request.getParameter("id"));
+ 				System.out.println("parsed Value : " + id);
                 ServerManager manager = new ServerManager();
+                DynamicQR qr = new DynamicQR();
                 %>
     <div class="main-container">
         <div class="left-container">
             <h3 style="font-style: italic; font-size: xx-large; "><%= manager.getUserName(id) %></h3>
             <p>Current Balance: <%= manager.getWalletBalance(id) %></p>
-            
+
+            <% String name = manager.getUserName(id); System.out.println("Name : " + name); %>
+            <img alt="image not working" src="images/<%= name %>.png">
+          
         </div>
         <div class="container">
             <img src="images/DigiPayLogo.png" width="60px" height="60px" alt="DigiPay Logo" class="logo">
             <form action="Transfers" method="post">
             <input type="hidden" name="action" value="walletTransfer" >
-           
+           	<input type="hidden" name="id" value="<%= id %>" >
 			<%
                 ArrayList<WalletIdInfo> walletInfo = manager.readWalletDetails(id);
                 for(WalletIdInfo details : walletInfo){

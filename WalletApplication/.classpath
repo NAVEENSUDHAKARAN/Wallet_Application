@@ -17,5 +17,7 @@
 	<classpathentry exported="true" kind="lib" path="C:/Users/nave3557/Downloads/dependency/servlet-api.jar"/>
 	<classpathentry exported="true" kind="lib" path="C:/Users/nave3557/Downloads/dependency/mysql-connector-j-8.3.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="C:/Users/nave3557/Downloads/dependency/jstl-1.2.jar/jstl-1.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/nave3557/Downloads/zxing-1.7-javase/zxing-1.7-javase.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/nave3557/Downloads/zxing-core-2.0/zxing-core-2.0.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
