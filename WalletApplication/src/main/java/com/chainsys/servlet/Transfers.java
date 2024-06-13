@@ -33,7 +33,33 @@ public class Transfers extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		//response.getWriter().append("Served at: ").append(request.getContextPath());
+		System.out.println("Get Method");
+		String recId = request.getParameter("receiverWalletId");
+		System.out.println("----->" + recId);
+		try {
+			if(manager.checkWalletId(recId)) {
+				System.out.println("1");
+				request.getRequestDispatcher("QRPage.jsp?recId="+recId).forward(request, response);
+			}else {
+				System.out.println("2");
+			
+				doPost(request,response);
+			}
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ServletException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 	/**
@@ -99,6 +125,7 @@ public class Transfers extends HttpServlet {
 			}
 		}else if(choice.equals("walletTransfer")){
 			int id = Integer.parseInt(request.getParameter("id"));
+			System.out.println("ID ---> " + id);
 			String senderId = request.getParameter("senderWalletId");
 			System.out.println("SenderID : " + senderId);
 			String receiverId = request.getParameter("receiverWalletId");
@@ -135,8 +162,45 @@ public class Transfers extends HttpServlet {
 				e.printStackTrace();
 			}
 			
+		}else if(choice.equals("mobileTransfer")) {
+			
+			
+			String senderId = request.getParameter("senderWalletId");
+			System.out.println("SenderID : " + senderId);
+			String[] splitedSenderId = senderId.split("@");
+			String appendedSenderId = splitedSenderId[0]+"@gmail.com";
+			
+			String receiverId = request.getParameter("receiverWalletId");
+			System.out.println("Receiver ID: " + receiverId);
+			double amountToSend = Double.parseDouble(request.getParameter("amountToSend"));
+			String password = request.getParameter("password");
+			
+			try {
+				if(manager.checkWalletId(receiverId) && manager.checkWalletId(senderId) && manager.checkPassword(appendedSenderId, password)) {
+
+					manager.deductWalletBalance(senderId, amountToSend);
+
+					manager.updateWalletBalance(amountToSend, receiverId);
+					manager.updateTransactionHistory(senderId, receiverId, amountToSend);
+					request.getRequestDispatcher("LandingPage.jsp").forward(request, response);
+
+				
+}
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ServletException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
 		}
-		
 
 	}
 

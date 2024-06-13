@@ -290,6 +290,12 @@ to {
 	height: 100%;
 }
 
+#address{
+	position: absolute;
+	/* background-color: aqua; */
+	right: 90%;
+}
+
 #copyRightsText {
 	position: relative;
 	top: 25%;

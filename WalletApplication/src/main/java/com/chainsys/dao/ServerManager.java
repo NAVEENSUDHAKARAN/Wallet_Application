@@ -317,6 +317,34 @@ public boolean checkPassword(int userId, String password) throws ClassNotFoundEx
 		
 		return false;
 	}
+
+public boolean checkPassword(String walletId, String password) throws ClassNotFoundException, SQLException{
+	
+	ConnectUtil connect = new ConnectUtil();
+	Connection connection = connect.getConnection();
+	
+	String query = "Select password from users where email = ?";
+	
+	PreparedStatement prepStatement = connection.prepareStatement(query);
+	prepStatement.setString(1, walletId);
+	
+	ResultSet rows = prepStatement.executeQuery();
+	ResultSetMetaData metaData = rows.getMetaData();
+	int columnCount = metaData.getColumnCount();
+
+	while (rows.next()) {
+		for (int i = 1; i <= columnCount; i += 1) {
+			if(password.equals( rows.getString(i))) {
+				
+				return true;
+			}
+			
+		}
+		System.out.println();
+	}
+	
+	return false;
+}
 		
 	public void depositAmount(String accNo, double amount) throws ClassNotFoundException, SQLException {
 		
@@ -535,6 +563,31 @@ public boolean checkPassword(int userId, String password) throws ClassNotFoundEx
 		return null;
 	}
 	
+	public String getWalletId(String walletId) throws ClassNotFoundException, SQLException {
+		
+		ConnectUtil connect = new ConnectUtil();
+		Connection connection = connect.getConnection();
+		
+		String query = "Select wallet_id from wallets where wallet_id = ?";
+		
+		PreparedStatement preparedStatement = connection.prepareStatement(query);
+		
+		preparedStatement.setString(1, walletId);
+		
+		ResultSet rows = preparedStatement.executeQuery();
+		ResultSetMetaData metaData = rows.getMetaData();
+		int columnCount = metaData.getColumnCount();
+		
+		while(rows.next())
+		{
+			for(int i=1; i<=columnCount; i=+1)
+			{
+				return rows.getString(i);
+			}
+		}
+		return null;
+	}
+	
 	public ArrayList<UserInfo> readUserDetails(int id) throws ClassNotFoundException{
 		
 		 ArrayList<UserInfo> userDetailsList = new ArrayList<>();
@@ -617,7 +670,38 @@ public boolean checkPassword(int userId, String password) throws ClassNotFoundEx
 		        while (resultSet.next()) {
 		        	WalletIdInfo walletDetails = new WalletIdInfo();
 		        	walletDetails.setWalletId(resultSet.getString("wallet_id"));
-		        	walletDetails.setImage("qr");
+		        	walletDetails.setImage(resultSet.getBytes("qr"));
+		        	walletDetailsList.add(walletDetails);
+		 
+		        }
+		        
+		        resultSet.close();
+		        prepareStatement.close();
+		        connection.close();
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+		    }
+		    
+		    return walletDetailsList;
+	}
+	
+	public ArrayList<WalletIdInfo> readWalletDetails(String walletId) throws ClassNotFoundException{
+		
+		 ArrayList<WalletIdInfo> walletDetailsList = new ArrayList<>();
+		    
+		    try {
+		        Connection connection = ConnectUtil.getConnection();
+		        String query = "select * from wallets where wallet_id = ?";
+				PreparedStatement prepareStatement = connection.prepareStatement(query);
+				
+				prepareStatement.setString(1,walletId);
+				
+		        ResultSet resultSet = prepareStatement.executeQuery();
+		        
+		        while (resultSet.next()) {
+		        	WalletIdInfo walletDetails = new WalletIdInfo();
+		        	walletDetails.setWalletId(resultSet.getString("wallet_id"));
+		        	walletDetails.setImage(resultSet.getBytes("qr"));
 		        	walletDetailsList.add(walletDetails);
 		 
 		        }

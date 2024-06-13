@@ -16,6 +16,7 @@ body {
 	background-repeat: no-repeat;
 	background-size: 25%;
 	background-position: 20%;
+	overflow-y: hidden;
 }
 
 #container {

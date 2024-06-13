@@ -103,10 +103,12 @@
                 DynamicQR qr = new DynamicQR();
              %>
         <h2>Wallet Transfer</h2>
-        <form action="your_action_here" method="post">
+        <form action="Transfers" method="post">
+        	<input type="hidden" name="action" value="mobileTransfer" >
+        	<input type="hidden" name="id" value="<%= id %>" >
             <div class="form-group">
                 <label for="senderWalletId">Sender Wallet ID:</label>
-                <input type="text" id="senderWalletId" name="senderWalletId"  required readonly="readonly">
+                <input type="text" id="senderWalletId" name="senderWalletId"  required >
             </div>
             <div class="form-group">
                 <label for="receiverWalletId">Receiver Wallet ID:</label>
@@ -119,6 +121,10 @@
             <div class="form-group">
                 <label for="note">Note:</label>
                 <textarea id="note" name="note"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
             </div>
             <button type="submit" class="submit-button">Submit</button>
             <button type="button" class="cancel-button" onclick="window.location.href='your_cancel_url_here'">Cancel</button>
