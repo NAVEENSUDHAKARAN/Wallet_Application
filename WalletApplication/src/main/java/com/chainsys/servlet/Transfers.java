@@ -169,7 +169,7 @@ public class Transfers extends HttpServlet {
 			System.out.println("SenderID : " + senderId);
 			String[] splitedSenderId = senderId.split("@");
 			String appendedSenderId = splitedSenderId[0]+"@gmail.com";
-			
+			System.out.println("appended : "+ appendedSenderId);
 			String receiverId = request.getParameter("receiverWalletId");
 			System.out.println("Receiver ID: " + receiverId);
 			double amountToSend = Double.parseDouble(request.getParameter("amountToSend"));
@@ -183,9 +183,14 @@ public class Transfers extends HttpServlet {
 					manager.updateWalletBalance(amountToSend, receiverId);
 					manager.updateTransactionHistory(senderId, receiverId, amountToSend);
 					request.getRequestDispatcher("LandingPage.jsp").forward(request, response);
-
-				
-}
+				}else if(!manager.checkPassword(appendedSenderId, password)){
+					request.setAttribute("alertMessage", "Invalid Password");
+					request.getRequestDispatcher("WalletTransferPage.jsp").forward(request, response);
+				}
+				else if(!manager.checkWalletId(receiverId)) {
+					request.setAttribute("alertMessage", "Invalid WalletID");
+					request.getRequestDispatcher("WalletTransferPage.jsp").forward(request, response);
+				}
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

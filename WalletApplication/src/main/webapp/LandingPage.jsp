@@ -249,9 +249,10 @@ to {
 
 #functionalities {
 	position: relative;
-	height: 100vh;
+	height: 40vh;
 	width: 100vw;
 	padding: 50px;
+	background-color: aqua;
 }
 
 #footerDiv {
@@ -350,10 +351,63 @@ to {
    		left: 40%;
    }
    
-   #classBody{
+    .pop-out-content {
+      display: none;
+      position: absolute;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      padding: 10px;
+      z-index: 9999;
+    }
+
+    .parent:hover .pop-out-content {
+      display: block;
+    }
+   
+   .container {
+    position: relative;
+    width: 300px;
+  }
+
+  .image {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .overlay {
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    width: 100%;
+    height: 0;
+    transition: .5s ease;
+  }
+
+  .container:hover .overlay {
+    bottom: 0;
+    height: 100%;
+  }
+
+  .text {
+    color: white;
+    font-size: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    text-align: center;
+  }
+   
+   .container{
+   		background-color: blue;
+   		height: 50vh;
    		
    }
-   
    /* #dropdown{
    		border: 2px groove #3c445c;
    		height: 51px;
@@ -378,38 +432,26 @@ to {
 	<div id="navbarDiv">
 
 		<div id="logoDiv">
-			<img alt="image not working" src="images/DigiPayLogo.png"
-				width="100px" height="80px">
+			<img alt="digilogo not working" src="images/DigiPayLogo.png" width="100px" height="80px">
 		</div>
-		<!-- <div id="dropDown">
-                <div class="dropdown">
-                  <button style="background-color: #3c445c; width: 100%; height: 100%; " class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Services
-                  </button>
-                  <ul class="dropdown-menu">
-                    <li><button class="dropdown-item" type="button">Transfer Money</button></li>
-                    <li><button class="dropdown-item" type="button">Pay Online</button></li>
-                    <li><button class="dropdown-item" type="button">Buy and Sell Crypto</button></li>
-                  </ul>
-                </div>
-            </div> -->
+
 		<div id="optionsDiv">
 			<div id="contentDiv">
-				<a id="help" style="padding-top: 10px;">Help</a> <a id="login"
-					href="LoginPage.jsp" style="padding-top: 10px;">LogIN</a>
+				<a id="help" style="padding-top: 10px;">Help</a> 
+				<a id="login" href="LoginPage.jsp" style="padding-top: 10px;">LogIN</a>
 				
 				<% 
 					if(session.getAttribute("userName") == null){
 				%>
-						<button id="registerBtn"
-					onclick="window.location.href='RegistrationForm.jsp'">Register</button>
+		
+		<button id="registerBtn" onclick="window.location.href='RegistrationForm.jsp'">Register</button>
 				<%} else{  
 					HttpSession id = request.getSession();
 					int userId = (int) id.getAttribute("userid");
 				%>
 						<div id="walletBalanceDiv">
 							<span style="font-size: medium;small;">WalletBalance</span><br>
-							<img alt="image not working" src="images/walleticon.png" width="35px" height="35px"><input type="text" name="walletBalance" style="width: 130px; position:relative; border:none; left: 10px;" value="<%= manager.getWalletBalance(userId) %>" readonly="readonly" >
+							<img alt="walleticon not working" src="images/walleticon.png" width="35px" height="35px"><input type="text" name="walletBalance" style="width: 130px; position:relative; border:none; left: 10px;" value="<%= manager.getWalletBalance(userId) %>" readonly="readonly" >
 						</div>	
 				<%} %>
 				<%-- <p id="welcomeNote" >Hi, <%= session.getAttribute("userName") %></p> --%>
@@ -420,13 +462,11 @@ to {
 						name = "Register/Login";
 					}
 					else
-					{
+					{ 
 						name = (String) session.getAttribute("userName");
-					}
-				%>
-				
-				<div id="profile" class="container mt-5 ">
-					<div id="profileDiv" class="d-flex justify-content-end ">
+						%>	
+						<div id="profile" class="container mt-5 ">
+						<div id="profileDiv" class="d-flex justify-content-end ">
 						<div id="dropdown" class="dropdown ">
 							<button class="btn btn-outline-dark dropdown-toggle"
 								type="button" id="dropdownMenuButton" data-bs-toggle="dropdown"
@@ -448,6 +488,12 @@ to {
 						</div>
 					</div>
 				</div>
+				
+				
+					
+				<%	}
+				%>
+				
 			</div>
 		</div>
 	</div>
@@ -462,14 +508,14 @@ to {
 
 			<div id="innerBtns">
 				<button id="innerSignUp"
-					onclick="window.location.href='RegistrationForm.jsp'">SignUP</button>
+					onclick="">About US</button>
 				<button id="innerLearnMore">Learn More</button>
 			</div>
 		</div>
 		<div id="p">
 		<div id="parallelogramDiv">
 			<div id="parallelogramImg">
-				<img alt="image not working" src="images/frontpagebg.jpg" width="100%" height="100%" >
+				<img alt="not working" src="images/frontpagebg.jpg" width="100%" height="100%" >
 			</div>
 		</div>
 		</div>
@@ -507,7 +553,7 @@ to {
 								width="21px" height="21px">&nbsp;Send Money
 						</h5>
 						<p class="card-text">to any Digipay User or Bank Account.</p>
-						<!-- <a onclick="openTransferDialog()" style="background-color: #3c445c; border-color: black;" class="btn btn-primary">Transfer</a>  -->
+
 							
 							<button
 							 onclick="openTransferDialog()" 
@@ -517,22 +563,14 @@ to {
 					</div>
 				</div>
 			</div>
-		
-			<div id="row1" class="col-sm-6">
-				<div id="row" class="card">
-					<div class="card-body">
-						<h5 class="card-title">Special title treatment</h5>
-						<p class="card-text">With supporting text below as a natural
-							lead-in to additional content.</p>
-						<a href="MobileTransaction.jsp"
-							style="background-color: #3c445c; border-color: black;"
-							class="btn btn-primary">Go somewhere</a>
-					</div>
-				</div>
-			</div>
 		</div>
 	</div>
-
+	<div class="container">
+		  <img src="image.jpg" alt="Avatar" class="image">
+		  <div class="overlay">
+		    <div class="text">Overlay Text</div>
+		  </div>
+	</div>
 	<div id="footerDiv">
 		<div id="mediaTag">
 			<div>
@@ -541,12 +579,12 @@ to {
 					Us on :</h2>
 			</div>
 			<div id="icons">
-				<img src="images/youtube.png" alt="image not working" width="30px"
+				<img src="images/youtube.png" alt="youtube not working" width="30px"
 					height="30px"> <img src="images/facebook.png"
-					alt="image not working" width="30px" height="30px"> <img
-					src="images/linkedin.png" alt="image not working" width="30px"
+					alt="facebook not working" width="30px" height="30px"> <img
+					src="images/linkedin.png" alt="linkedin not working" width="30px"
 					height="30px"> <img src="images/instagram.png"
-					alt="image not working" width="30px" height="30px">
+					alt="instagram not working" width="30px" height="30px">
 			</div>
 		</div>
 		<div id="copyRightDiv">
@@ -560,7 +598,7 @@ to {
 		<div id="addressDiv">
 			<div id="address" style="position: relative; left: 25%; top: 20px;">
 				<p>
-					<img src="images/addressgif.gif" alt="image not working"
+					<img src="images/addressgif.gif" alt="addressgif not working"
 						width="15px" height="15px">123,South Street, Chennai-28
 				</p>
 				<p>
@@ -568,7 +606,7 @@ to {
 						height="15px">naveensudhakaran2@gmail.com
 				</p>
 				<p>
-					<img src="images/phonegif.gif" alt="image not working" width="15px" height="15px">6382401736
+					<img src="images/phonegif.gif" alt="phonegif not working" width="15px" height="15px">6382401736
 				</p>
 			</div>
 		</div>

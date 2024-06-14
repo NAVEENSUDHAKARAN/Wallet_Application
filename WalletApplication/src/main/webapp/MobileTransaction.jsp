@@ -130,5 +130,31 @@
             <button type="button" class="cancel-button" onclick="window.location.href='your_cancel_url_here'">Cancel</button>
         </form>
     </div>
+<script>
+
+<% 
+String alertMessage = (String) request.getAttribute("alertMessage");
+System.out.println("alertMsg : " + alertMessage);
+if(alertMessage != null && !alertMessage.isEmpty()){
+    if(alertMessage.equals("Invalid Password")){
+%>
+Swal.fire({
+title: '<%= alertMessage %>',
+type: 'error',
+confirmButtonColor: '#3c445c',
+confirmButtonText: 'Ok'
+})
+<% }else if(alertMessage.equals("Invalid WalletID")){ %>
+Swal.fire({
+  title: '<%= alertMessage %>',
+  type: 'error',
+  confirmButtonColor: '#3c445c',
+  confirmButtonText: 'Ok'
+})
+<%}
+}%>
+
+
+</script>
 </body>
 </html>

@@ -115,7 +115,7 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script>
 
-        document.getElementById("email").addEventListener("click", function(event) {
+        document.getElementById("email").addEventListener("input", function(event) {
             var emailField = document.getElementById("email");
             var email = emailField.value.trim();
 

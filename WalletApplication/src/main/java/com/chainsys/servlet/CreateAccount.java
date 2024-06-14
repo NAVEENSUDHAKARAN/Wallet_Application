@@ -24,9 +24,9 @@ import com.chainsys.model.WalletIdInfo;
 @WebServlet("/CreateAccount")
 public class CreateAccount extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    ServerManager manager = new ServerManager(); 
-    BankAccountInfo accountInfo = new BankAccountInfo();
-    WalletIdInfo walletInfo = new WalletIdInfo(); 
+    static ServerManager manager = new ServerManager(); 
+    static BankAccountInfo accountInfo = new BankAccountInfo();
+    static WalletIdInfo walletInfo = new WalletIdInfo(); 
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -38,6 +38,8 @@ public class CreateAccount extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+    
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		response.getWriter().append("Served at: ").append(request.getContextPath());
@@ -46,13 +48,11 @@ public class CreateAccount extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		//doGet(request, response);
-		//System.out.println("CreateAccountPostMethod");
 		
 		String choice = request.getParameter("action");
-		System.out.println("Choice : " + choice);
 
 		if(choice.equals("createAccount"))
 		{

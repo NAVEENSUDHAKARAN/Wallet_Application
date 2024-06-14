@@ -16,15 +16,23 @@ body {
 	background-repeat: no-repeat;
 	background-size: 25%;
 	background-position: 20%;
-	overflow-y: hidden;
+
+	/* overflow-y: hidden; */
+}
+
+#mainDiv{
+
+	padding-bottom: 50px;
 }
 
 #container {
 	position: relative;
 	max-width: 400px;
-	left: 25%;
-	top: 30%;
-	margin: 50px auto;
+	left: 60%;
+	top: 20px;
+
+	margin-top: 50px auto;
+	
 	background-color: #fff;
 	padding: 20px;
 	border-radius: 8px;
@@ -71,9 +79,10 @@ input[type="text"], input[type="email"], input[type="password"] {
 	border-radius: 5px;
 }
 </style>
-<body>
-	<div id="container">
-		<h2>User Registration</h2>
+<body style="overflow-y: hidden;">
+	<div id="mainDiv">
+		<div id="container">
+		<h2>Register</h2>
 		<form action="LandingPage" method="post">
 			<label for="first_name">First Name:</label> <input type="hidden"
 				name="action" value="register"> <input type="text"
@@ -81,8 +90,8 @@ input[type="text"], input[type="email"], input[type="password"] {
 				for="last_name">Last Name:</label> <input type="text" id="lastName"
 				name="lastName" required> <label for="email">Email
 				ID:</label> <input type="email" id="email" name="email" required> <label
-				for="password">Password:</label> <input type="password"
-				id="password" name="password" required>
+				for="password">Password:</label> 
+				<input type="password" id="password" name="password" required>
 
 			<%
 			String errorMessage = (String) request.getAttribute("message");
@@ -103,7 +112,8 @@ input[type="text"], input[type="email"], input[type="password"] {
 			</div>
 		</form>
 	</div>
-
+		
+	</div>
 </body>
 </html>
 

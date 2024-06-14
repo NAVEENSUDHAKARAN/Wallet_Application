@@ -67,18 +67,18 @@
         <input type="text" id="lastName" name="lastName" required>
       </div>
       <div class="form-group">
-        <label for="phoneNumber">Phone Number:</label>
+        <label for="phoneNumber">Phone Number:</label><small style="color: red;" >Format: 10 digits (e.g., 1234567890)</small><br>
         <input type="tel" id="phoneNumber" name="phoneNumber" pattern="[0-9]{10}" required>
-        <small>Format: 10 digits (e.g., 1234567890)</small>
+        
       </div>
       <div class="form-group">
         <label for="dateOfBirth">Date of Birth:</label>
-        <input type="date" id="dateOfBirth" name="dateOfBirth" required>
+        <input type="date" id="dateOfBirth" name="dateOfBirth"  max="2006-06-13" required>
       </div>
       <div class="form-group">
-        <label for="aadhaarNumber">Aadhaar Number:</label>
+        <label for="aadhaarNumber">Aadhaar Number:</label><small style="color: red;" >12-digit Aadhaar number</small><br>
         <input type="text" id="aadhaarNumber" name="aadhaarNumber" pattern="[0-9]{12}" required>
-        <small>12-digit Aadhaar number</small>
+        
       </div>
       <div class="form-group">
         <label for="residentialAddress">Residential Address:</label>

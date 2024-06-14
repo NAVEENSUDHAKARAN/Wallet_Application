@@ -15,12 +15,13 @@
             background-color: #f0f2f5;
             margin: 0;
             padding: 0;
-            overflow-y: hidden; 
+       		overflow-y: hidden;
         }
         .main-container {
             display: flex;
-            padding: 10px;
-            margin: 10px;
+           	padding: 5px;
+           	margin: 5px;
+           	bottom: 20px;
         }
         .left-container {
             width: 30%;
@@ -152,7 +153,7 @@
             <div class="form-group">
             <label for="receiverWalletId">Receiver Wallet ID:</label>
             <input type="text" id="receiverWalletId" name="receiverWalletId" required>
-            <button onclick="generateQRCode()">Generate QR</button>
+            <button onclick="generateQRCode()" style="background-color: #3c445c; border-radius: 5px; color:white;" >Generate QR</button>
         </div>
         <div id="qrBar" class="bar">
             <div id="qrCodeDiv"></div>
