@@ -47,16 +47,16 @@ public class Transfers extends HttpServlet {
 				doPost(request,response);
 			}
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		} catch (ServletException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
 		
@@ -144,11 +144,11 @@ public class Transfers extends HttpServlet {
 				}
 				else if(!manager.checkPassword(id, password)){
 					request.setAttribute("alertMessage", "Invalid Password");
-					request.getRequestDispatcher("WalletTransferPage.jsp").forward(request, response);
+					request.getRequestDispatcher("WalletTransfer.jsp").forward(request, response);
 				}
 				else if(!manager.checkWalletId(receiverId)) {
 					request.setAttribute("alertMessage", "Invalid WalletID");
-					request.getRequestDispatcher("WalletTransferPage.jsp").forward(request, response);
+					request.getRequestDispatcher("WalletTransfer.jsp").forward(request, response);
 				}
 				else {
 					System.out.println("you are totally wrong!!!");
@@ -191,19 +191,10 @@ public class Transfers extends HttpServlet {
 					request.setAttribute("alertMessage", "Invalid WalletID");
 					request.getRequestDispatcher("WalletTransferPage.jsp").forward(request, response);
 				}
-			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
+			} catch (ClassNotFoundException | SQLException | ServletException | IOException e) {
+
 				e.printStackTrace();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (ServletException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			}   
 
 		}
 

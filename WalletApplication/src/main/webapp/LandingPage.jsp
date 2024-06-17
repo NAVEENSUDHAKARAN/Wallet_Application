@@ -14,8 +14,9 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 
 
 <title>Home</title>
@@ -137,7 +138,7 @@ body {
 }
 
 #profile {
-	background-color: #3c445c;
+
 	position: relative;
 	bottom: 50px;
 }
@@ -203,7 +204,7 @@ to {
 	height: 70vh;
 	background-color: white;
 	transform: skew(-20deg);
-	left: 45%;
+	left: 50%;
 	height: 59%;; 
 	border-left: 5px solid #3c445c;
 
@@ -252,11 +253,11 @@ to {
 	height: 40vh;
 	width: 100vw;
 	padding: 50px;
-	background-color: aqua;
+
 }
 
 #footerDiv {
-	background-color: aqua;
+	
 	height: 30vh;
 	width: 98.6vw;
 	display: flex;
@@ -313,11 +314,7 @@ to {
 
 }
 
-/* .btn-outline-dark:hover {
-        background-color: transparent;
-        color: inherit;
-    } */
-    
+
      #dropdown.dropdown-toggle:hover {
             background-color: transparent !important;
             color: white !important;
@@ -403,16 +400,12 @@ to {
     text-align: center;
   }
    
-   .container{
+/*    .container{
    		background-color: blue;
    		height: 50vh;
    		
-   }
-   /* #dropdown{
-   		border: 2px groove #3c445c;
-   		height: 51px;
-   		padding-bottom: 10px;
-   }  */
+   } */
+
 
 </style>
 <body>
@@ -444,7 +437,7 @@ to {
 					if(session.getAttribute("userName") == null){
 				%>
 		
-		<button id="registerBtn" onclick="window.location.href='RegistrationForm.jsp'">Register</button>
+		<button id="registerBtn" onclick="window.location.href='Register.jsp'">Register</button>
 				<%} else{  
 					HttpSession id = request.getSession();
 					int userId = (int) id.getAttribute("userid");
@@ -477,7 +470,7 @@ to {
 								%>
 								<div id="dropdownDiv">
 									<ul id="dropdown-menu" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-									<li><a class="dropdown-item" href="ProfilePage.jsp">Profile</a></li>
+									<li><a class="dropdown-item" href="profile.jsp">Profile</a></li>
 									<form action="Logout" method="post">
 									<li><button class="dropdown-item" >Logout</button></li>
 									</ul>
@@ -554,23 +547,23 @@ to {
 						</h5>
 						<p class="card-text">to any Digipay User or Bank Account.</p>
 
-							
 							<button
 							 onclick="openTransferDialog()" 
 							style="background-color: #3c445c; border-color: black;"
 							class="btn btn-primary">Transfer</button>
+							
 
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	<div class="container">
-		  <img src="image.jpg" alt="Avatar" class="image">
+	<!-- <div class="container">
+		  <img src="images/DigiPayLogo.png" alt="Avatar" class="image">
 		  <div class="overlay">
 		    <div class="text">Overlay Text</div>
 		  </div>
-	</div>
+	</div> -->
 	<div id="footerDiv">
 		<div id="mediaTag">
 			<div>
@@ -630,7 +623,7 @@ function openTransferDialog() {
             if (userId != null) {
             %>
                 
-                window.location.href = "WalletTransferPage.jsp?id=<%= userId %>";
+                window.location.href = "WalletTransfer.jsp?id=<%= userId %>";
            <% } %>
         	 
            <%--  window.location.href = "WalletTransferPage.jsp?id=<%= (int) session.getAttribute("userid") %>"; --%>

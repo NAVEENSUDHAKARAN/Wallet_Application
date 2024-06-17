@@ -24,9 +24,9 @@ import com.chainsys.model.WalletIdInfo;
 @WebServlet("/CreateAccount")
 public class CreateAccount extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    static ServerManager manager = new ServerManager(); 
-    static BankAccountInfo accountInfo = new BankAccountInfo();
-    static WalletIdInfo walletInfo = new WalletIdInfo(); 
+     ServerManager manager = new ServerManager(); 
+    BankAccountInfo accountInfo = new BankAccountInfo();
+     WalletIdInfo walletInfo = new WalletIdInfo(); 
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -39,7 +39,7 @@ public class CreateAccount extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
     
-	@Override
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		response.getWriter().append("Served at: ").append(request.getContextPath());
@@ -48,12 +48,12 @@ public class CreateAccount extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	@Override
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		
 		String choice = request.getParameter("action");
-
+		System.out.println("choice : " + choice);
 		if(choice.equals("createAccount"))
 		{
 			String fname = request.getParameter("firstName");
@@ -71,20 +71,17 @@ public class CreateAccount extends HttpServlet {
 			accountInfo.setAddress(address);
 			
 			int id = (int) session.getAttribute("userid");
-			//System.out.println("_____id : " + id);
+			
 			
 			try {
 				if(!manager.checkUserId(id)) {
 					try {
 						manager.createAccount(accountInfo, id);
 						response.sendRedirect("LandingPage.jsp");
-					} catch (ClassNotFoundException e) {
+					} catch (ClassNotFoundException | SQLException e) {
 						
 						e.printStackTrace();
-					} catch (SQLException e) {
-						
-						e.printStackTrace();
-					}
+					} 
 				}
 				else
 				{
@@ -92,13 +89,10 @@ public class CreateAccount extends HttpServlet {
 					request.getRequestDispatcher("CreateBankAccount.jsp").forward(request, response);
 				}
 				
-			} catch (ClassNotFoundException e) {
+			} catch (ClassNotFoundException | SQLException e) {
 
 				e.printStackTrace();
-			} catch (SQLException e) {
-
-				e.printStackTrace();
-			}
+			} 
 		}
 		else if(choice.equals("depositAmount"))
 		{
@@ -107,86 +101,65 @@ public class CreateAccount extends HttpServlet {
 			accountInfo.setAccNo(accountNumber);
 			double amount = Double.parseDouble(request.getParameter("amount"));
 			session.setAttribute("accountInfo", accountInfo);
-			
-			try {
-				amount += manager.getAvailableBalance(accountNumber);
-			} catch (ClassNotFoundException e) {
-
-				e.printStackTrace();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+			System.out.println("acc no : " + accountNumber);
+			System.out.println("amount : " + amount);
+ 
 			accountInfo.setAmount(amount);
 			String password = request.getParameter("password");
 			
-		
-			System.out.println("_____id : " + id);
-			
 			try {
 				if(manager.checkAccountNumber(id, accountNumber) && manager.checkPassword(id,password))
-				{
-				
+				{	
+					System.out.println(manager.getAvailableBalance(accountNumber));
+					amount += manager.getAvailableBalance(accountNumber);
 					manager.depositAmount(accountNumber, amount);
 					String balance = String.valueOf(manager.getBalance(id));
-					System.out.println("Balance : " + balance);
+					System.out.println("balance : " + balance);
 					request.setAttribute("balance", balance);
 					request.getRequestDispatcher("DepositAmount.jsp").forward(request, response);
 
 				}
 				else if(!manager.checkPassword(id, password))
 				{
-					System.out.println("invalid password");
+					
 					request.setAttribute("invalidateMessage", "Invalid Password");
 					request.getRequestDispatcher("DepositAmount.jsp").forward(request, response);
 				}
 				else if(!manager.checkAccountNumber(id,accountNumber))
 				{
-					System.out.println("invalid AccountNumber");
 					request.setAttribute("invalidateMessage", "Invalid AccountNumber");
 					request.getRequestDispatcher("DepositAmount.jsp").forward(request, response);
 				}
 				else if(!manager.checkPassword(id, password) && !manager.checkAccountNumber(id,accountNumber))
 				{
-					System.out.println("both are invalid");
 					request.setAttribute("invalidateMessage", "Invalid AccountNumber and Password");
 					request.getRequestDispatcher("DepositAmount.jsp").forward(request, response);
 				}
-			} catch (ClassNotFoundException e) {
+			} catch (ClassNotFoundException | SQLException e) {
 				
 				e.printStackTrace();
-			} catch (SQLException e) {
-				
-				e.printStackTrace();
-			}
+			} 
 		}
 		else if(choice.equals("transfer"))
 		{
-			String accountNumber = (String) request.getParameter("accountNumber");
-			System.out.println("Account Number From sweetalert : " + accountNumber);
 			
 			int id = (int) session.getAttribute("userid");
-			System.out.println("_____id : " + id);
 			
 			try {
 				if(!manager.checkWalletId(id))
 				{
 					String email = manager.getEmail(id);
-					System.out.println("Email : " + email);
 					String[] splitedEmail = email.split("@");
 					String walletId = splitedEmail[0] + "@digipay";
-					System.out.println("WalletID : " + walletId);
 					
 					request.setAttribute("walletID", walletId);
 					if(!manager.checkWalletId(id))
 					{
 						InetAddress localhost = InetAddress.getLocalHost();
-				        System.out.println("Your IP Address: " + localhost.getHostAddress());
 				        DynamicQR.generate_qr(manager.getUserName(id),localhost.getHostAddress()+":8080/WalletApplication/MobileTransaction.jsp?id=" + id+"&walletId="+ walletId,walletInfo);
 				       				        
 						walletInfo.setId(id);
 						walletInfo.setWalletId(walletId);
-						
-						System.out.println("setID pojo ------> " + walletInfo.getId());
 						
 						manager.createWalletId(walletInfo);
 						request.getRequestDispatcher("LandingPage.jsp").forward(request, response);
@@ -195,25 +168,12 @@ public class CreateAccount extends HttpServlet {
 				}
 				else	
 				{
-					
-					
-					  System.out.println("Account Already Exist");
-					  request.getRequestDispatcher("WalletTransferPage.jsp").forward(request, response);
-					 
+					  request.getRequestDispatcher("WalletTransfer.jsp").forward(request, response);	 
 				}
-			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
+			} catch (ClassNotFoundException | SQLException | ServletException | IOException e) {
+
 				e.printStackTrace();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (ServletException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			}   
 		}
 	}
 

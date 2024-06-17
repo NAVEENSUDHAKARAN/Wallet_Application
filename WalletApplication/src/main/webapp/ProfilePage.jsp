@@ -90,6 +90,7 @@
     <%
     HttpSession id = request.getSession(); 
     int userId = (int) id.getAttribute("userid");
+    System.out.println("id ---> " + userId);
     ServerManager server = new ServerManager();
     ArrayList<UserInfo> arrList = server.readUserDetails(userId);
     for (UserInfo userInfo : arrList) {

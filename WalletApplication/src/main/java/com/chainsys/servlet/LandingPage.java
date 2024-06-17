@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.chainsys.dao.ServerManager;
+import com.chainsys.model.BankAccountInfo;
 import com.chainsys.model.UserInfo;
 
 /**
@@ -19,8 +20,9 @@ import com.chainsys.model.UserInfo;
 @WebServlet("/LandingPage")
 public class LandingPage extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	ServerManager manager = new ServerManager();
-     UserInfo info = new UserInfo();  
+	static ServerManager manager = new ServerManager();
+     static UserInfo info = new UserInfo(); 
+     static BankAccountInfo accountInfo = new BankAccountInfo();
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -32,21 +34,20 @@ public class LandingPage extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		response.getWriter().append("Served at: ").append(request.getContextPath());
-		System.out.println("Get Method");
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		//doGet(request, response);
 		
 		String choice = request.getParameter("action");
-		
+		System.out.println("choice : " + choice);
 		if(choice.equals("register"))
 		{
 			try {
@@ -60,27 +61,35 @@ public class LandingPage extends HttpServlet {
 				info.setEmail(lowerCaseEmail);
 				String password = request.getParameter("password");
 				info.setPassword(password);
+				String phoneNumber = request.getParameter("phoneNumber");
+				accountInfo.setPhoneNumber(phoneNumber);
+				String dob = request.getParameter("dateOfBirth");
+				accountInfo.setDOB(dob);
+				String aadharNo = request.getParameter("aadhaarNumber");
+				long adrNo = Long.parseLong(aadharNo);
+				accountInfo.setAadharNumber(adrNo);
+				String address = request.getParameter("residentialAddress");
+				accountInfo.setAddress(address);
 				
 				if(manager.retrieveUserCred(info))
 				{
 					manager.setUserDetails(info);
+					int id = manager.getUserID(info);
+					manager.createAccount(accountInfo, id);
 					response.sendRedirect("LoginPage.jsp");
 					
 				}
 				else {
-					System.out.println("Email Already Exist!");
 					request.setAttribute("message", "Account Already Exist!");
-					request.getRequestDispatcher("RegistrationForm.jsp").forward(request, response);
+					request.getRequestDispatcher("Register.jsp").forward(request, response);
 
 				}
 				
 				
-			} catch (ClassNotFoundException e) {
+			} catch (ClassNotFoundException | SQLException e) {
 				
 				e.printStackTrace();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+			} 
 		}
 		else if(choice.equals("logIN"))
 		{
@@ -92,35 +101,29 @@ public class LandingPage extends HttpServlet {
 			try {
 				int userID = manager.getUserID(info);
 				session.setAttribute("userid", userID);
-			} catch (ClassNotFoundException e) {
+			} catch (ClassNotFoundException | SQLException e) {
 				
 				e.printStackTrace();
-			} catch (SQLException e) {
-				
-				e.printStackTrace();
-			}
+			} 
 			
 			try {
 				if(manager.checkLogin(email, password))
 				{
 					session.setAttribute("details", info);
-					session.setAttribute("userName", (String) manager.getUserName(info));
+					session.setAttribute("userName", manager.getUserName(info));
 					response.sendRedirect("LandingPage.jsp");
 
 				}
 				else
 				{
-					System.out.println("Invalid Login Details");
 				
 					request.setAttribute("error", "Invalid username or password!");
 					request.getRequestDispatcher("LoginPage.jsp").forward(request, response);
 
 				}
-			} catch (ClassNotFoundException e) {
+			} catch (ClassNotFoundException | SQLException e) {
 				e.printStackTrace();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+			} 
 		}
 		
 	}

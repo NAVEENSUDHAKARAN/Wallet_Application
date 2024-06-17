@@ -150,10 +150,10 @@
             <input type="hidden" name="action" value="walletTransfer">
             <input type="hidden" name="id" value="<%= id %>">
             
-            <div class="form-group">
+       	<div class="form-group">
             <label for="receiverWalletId">Receiver Wallet ID:</label>
             <input type="text" id="receiverWalletId" name="receiverWalletId" required>
-            <button onclick="generateQRCode()" style="background-color: #3c445c; border-radius: 5px; color:white;" >Generate QR</button>
+            <button type="button" onclick="generateQRCode()" style="background-color: #3c445c; border-radius: 5px; color:white;" >Generate QR</button>
         </div>
         <div id="qrBar" class="bar">
             <div id="qrCodeDiv"></div>

@@ -20,11 +20,9 @@ import com.chainsys.util.ConnectUtil;
 public class ServerManager {
 
 	Scanner scan = new Scanner(System.in);
-	
+	Random random = new Random();
 	public int accountNumberGeneration() {
 		String accountNumber = null;
-		Random random = new Random();
-	
 		accountNumber = "1002024"+random.nextInt(100);
 		
 		return Integer.parseInt(accountNumber);
@@ -32,7 +30,7 @@ public class ServerManager {
 	
 	public Long transactionIdGenerator() {
 		
-		Random random = new Random();
+		
 		LocalDateTime currentDateandTime = LocalDateTime.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
 	    String formattedDateTime = currentDateandTime.format(formatter);
@@ -46,7 +44,6 @@ public class ServerManager {
 
 		while (true) {
 			try {
-				ConnectUtil connect = new ConnectUtil();
 				Connection connection = ConnectUtil.getConnection();
 
 				String query = "insert into users values (?,?,?,?,?)";
@@ -60,22 +57,15 @@ public class ServerManager {
 
 				int rows = prepareStatement.executeUpdate();
 
-				System.out.println("Rows Affected : " + rows);
-				System.out.println("Inserted To DB!!!");
 				break;
 			} catch (SQLIntegrityConstraintViolationException e) {
-				System.err.println(e);
-//				System.out.println("Enter ID Again : ");
-//				int id = scan.nextInt();
-//				pojo.setId(id);
-//				scan.nextLine();
+				
 			}
 		}
 	}
 	
 	public int getUserID(UserInfo info) throws SQLException, ClassNotFoundException {
 		
-		ConnectUtil connect = new ConnectUtil();
 		Connection connection = ConnectUtil.getConnection();
 
 		String query = "Select user_id from users where email = ?";
@@ -98,8 +88,7 @@ public class ServerManager {
 	}
 	
 	public int getUserIDFromAccountTable(UserInfo info) throws SQLException, ClassNotFoundException {
-			
-			ConnectUtil connect = new ConnectUtil();
+
 			Connection connection = ConnectUtil.getConnection();
 	
 			String query = "Select user_id from users where email = ?";
@@ -122,7 +111,6 @@ public class ServerManager {
 		}
 	
 	public boolean checkUserId(int id) throws ClassNotFoundException, SQLException {
-		ConnectUtil connect = new ConnectUtil();
 		Connection connection = ConnectUtil.getConnection();
 
 		String query = "select user_id from bank_accounts where user_id = ?";
@@ -146,8 +134,7 @@ public class ServerManager {
 	
 	public void createAccount(BankAccountInfo detail, int id) throws ClassNotFoundException, SQLException{
 		
-		ConnectUtil connect = new ConnectUtil();
-		Connection connection = connect.getConnection();
+		Connection connection = ConnectUtil.getConnection();
 		
 		String query = "insert into bank_accounts (user_id, account_number, phonenumber, dateofbirth, aadhaarnumber, residential_address, balance) values(?,?,?,?,?,?,?)";
 		PreparedStatement prepareStatement = connection.prepareStatement(query);
@@ -159,17 +146,12 @@ public class ServerManager {
 		prepareStatement.setLong(5, detail.getAadharNumber());
 		prepareStatement.setString(6, detail.getAddress());
 		prepareStatement.setInt(7, 500);		
-		
-		int rows = prepareStatement.executeUpdate();
-
-		System.out.println("Rows Affected : " + rows);
-		System.out.println("Inserted To DB!!!");
-			
+	
+		prepareStatement.executeUpdate();
 	}
 
 	public String getUserName(UserInfo pojo) throws ClassNotFoundException, SQLException {
 		
-		ConnectUtil connect = new ConnectUtil();
 		Connection connection = ConnectUtil.getConnection();
 
 		String query = "Select first_name from users where email = ?";
@@ -193,8 +175,7 @@ public class ServerManager {
 	}
 	
 		public String getUserName(int id) throws ClassNotFoundException, SQLException {
-		
-		ConnectUtil connect = new ConnectUtil();
+
 		Connection connection = ConnectUtil.getConnection();
 
 		String query = "Select first_name from users where user_id = ?";
@@ -218,8 +199,8 @@ public class ServerManager {
 	}
 	
 	public boolean retrieveUserCred(UserInfo pojo) throws ClassNotFoundException, SQLException {
-		ConnectUtil connect = new ConnectUtil();
-		Connection connection = connect.getConnection();
+
+		Connection connection = ConnectUtil.getConnection();
 		
 		String query = "Select email from users";
 		
@@ -241,7 +222,6 @@ public class ServerManager {
 	}
 
 	public boolean checkLogin(String email, String password) throws ClassNotFoundException, SQLException {
-		ConnectUtil connect = new ConnectUtil();
 		Connection connection = ConnectUtil.getConnection();
 
 		String query = "select email, password from users where email = ? and Password = ?";
@@ -265,8 +245,7 @@ public class ServerManager {
 	
 	public boolean checkAccountNumber(int id, String accNo) throws ClassNotFoundException, SQLException{
 		
-		ConnectUtil connect = new ConnectUtil();
-		Connection connection = connect.getConnection();
+		Connection connection = ConnectUtil.getConnection();
 		
 		String query = "Select account_number from bank_accounts where user_id = ?";
 		
@@ -292,8 +271,7 @@ public class ServerManager {
 	
 public boolean checkPassword(int userId, String password) throws ClassNotFoundException, SQLException{
 		
-		ConnectUtil connect = new ConnectUtil();
-		Connection connection = connect.getConnection();
+		Connection connection = ConnectUtil.getConnection();
 		
 		String query = "Select password from users where user_id = ?";
 		
@@ -319,9 +297,8 @@ public boolean checkPassword(int userId, String password) throws ClassNotFoundEx
 	}
 
 public boolean checkPassword(String walletId, String password) throws ClassNotFoundException, SQLException{
-	
-	ConnectUtil connect = new ConnectUtil();
-	Connection connection = connect.getConnection();
+
+	Connection connection = ConnectUtil.getConnection();
 	
 	String query = "Select password from users where email = ?";
 	
@@ -347,9 +324,7 @@ public boolean checkPassword(String walletId, String password) throws ClassNotFo
 }
 		
 	public void depositAmount(String accNo, double amount) throws ClassNotFoundException, SQLException {
-		
-		ConnectUtil connect = new ConnectUtil();
-		Connection connection = connect.getConnection();
+		Connection connection = ConnectUtil.getConnection();
 		
 		String query = "update bank_accounts set balance = ? where account_number = ? ";
 		
@@ -358,13 +333,11 @@ public boolean checkPassword(String walletId, String password) throws ClassNotFo
 		prepareStatement.setDouble(1, amount);
 		prepareStatement.setString(2, accNo);
 		
-		int rows = prepareStatement.executeUpdate();
-
-		System.out.println("Rows Updated : " + rows);
+		prepareStatement.executeUpdate();
+		
 	}
 	
 	public int getAvailableBalance(String accNo) throws ClassNotFoundException, SQLException {
-		ConnectUtil connect = new ConnectUtil();
 		Connection connection = ConnectUtil.getConnection();
 
 		String query = "Select balance from bank_accounts where account_number = ?";
@@ -387,7 +360,6 @@ public boolean checkPassword(String walletId, String password) throws ClassNotFo
 	}
 	
 	public boolean checkEmail(int id) throws ClassNotFoundException, SQLException {
-		ConnectUtil connect = new ConnectUtil();
 		Connection connection = ConnectUtil.getConnection();
 
 		String query = "Select email from users where user_id = ?";
@@ -411,7 +383,6 @@ public boolean checkPassword(String walletId, String password) throws ClassNotFo
 	}
 	
 	public String getEmail(int id) throws ClassNotFoundException, SQLException {
-		ConnectUtil connect = new ConnectUtil();
 		Connection connection = ConnectUtil.getConnection();
 
 		String query = "Select email from users where user_id = ?";
@@ -435,8 +406,7 @@ public boolean checkPassword(String walletId, String password) throws ClassNotFo
 	}
 	
 	public int getBalance(int id) throws ClassNotFoundException, SQLException {
-		ConnectUtil connect = new ConnectUtil();
-		Connection connection = connect.getConnection();
+		Connection connection = ConnectUtil.getConnection();
 		
 		String query = "Select balance from bank_accounts where user_id = ?";
 		
@@ -464,9 +434,8 @@ public boolean checkPassword(String walletId, String password) throws ClassNotFo
 	}
 	
 	public void createWalletId(WalletIdInfo walletInfo) throws ClassNotFoundException, SQLException {
-		
-		ConnectUtil connect = new ConnectUtil();
-		Connection connection = connect.getConnection();
+
+		Connection connection = ConnectUtil.getConnection();
 		
 		String query = "insert into wallets (wallet_id, user_id, balance,qr) value (?,?,?,?)";
 		
@@ -477,17 +446,12 @@ public boolean checkPassword(String walletId, String password) throws ClassNotFo
 		prepareStatement.setInt(3, 0);
 		prepareStatement.setBytes(4, walletInfo.getImage());
 		
-		int rows = prepareStatement.executeUpdate();
-
-		System.out.println("Rows Affected : " + rows);
-		System.out.println("Inserted To DB!!!");
-		
+		prepareStatement.executeUpdate();
 	}
 	
 	public boolean checkWalletId(int id) throws ClassNotFoundException, SQLException {
-		
-		ConnectUtil connect = new ConnectUtil();
-		Connection connection = connect.getConnection();
+
+		Connection connection = ConnectUtil.getConnection();
 		
 		String query = "Select wallet_id from wallets where user_id = ?";
 		
@@ -510,9 +474,8 @@ public boolean checkPassword(String walletId, String password) throws ClassNotFo
 	}
 	
 		public boolean checkWalletId(String walletId) throws ClassNotFoundException, SQLException {
-		
-		ConnectUtil connect = new ConnectUtil();
-		Connection connection = connect.getConnection();
+
+		Connection connection = ConnectUtil.getConnection();
 		
 		String query = "Select wallet_id from wallets where wallet_id = ?";
 		
@@ -530,7 +493,6 @@ public boolean checkPassword(String walletId, String password) throws ClassNotFo
 			{
 				if(rows.getString(i).equals(walletId))
 				{
-					System.out.println("WalletID exist");
 					return true;
 				}
 			}
@@ -539,9 +501,8 @@ public boolean checkPassword(String walletId, String password) throws ClassNotFo
 	}
 	
 	public String getWalletId(int id) throws ClassNotFoundException, SQLException {
-		
-		ConnectUtil connect = new ConnectUtil();
-		Connection connection = connect.getConnection();
+
+		Connection connection = ConnectUtil.getConnection();
 		
 		String query = "Select wallet_id from wallets where user_id = ?";
 		
@@ -564,9 +525,8 @@ public boolean checkPassword(String walletId, String password) throws ClassNotFo
 	}
 	
 	public String getWalletId(String walletId) throws ClassNotFoundException, SQLException {
-		
-		ConnectUtil connect = new ConnectUtil();
-		Connection connection = connect.getConnection();
+
+		Connection connection = ConnectUtil.getConnection();
 		
 		String query = "Select wallet_id from wallets where wallet_id = ?";
 		
@@ -594,7 +554,7 @@ public boolean checkPassword(String walletId, String password) throws ClassNotFo
 		    
 		    try {
 		        Connection connection = ConnectUtil.getConnection();
-		        String query = "select * from users where user_id = ?";
+		        String query = "select user_id, first_name, last_name, password, email from users where user_id = ?";
 				PreparedStatement prepareStatement = connection.prepareStatement(query);
 				
 				prepareStatement.setInt(1,id);
@@ -627,7 +587,7 @@ public boolean checkPassword(String walletId, String password) throws ClassNotFo
 		    
 		    try {
 		        Connection connection = ConnectUtil.getConnection();
-		        String query = "select * from bank_accounts where user_id = ?";
+		        String query = "select user_id, account_number, phonenumber, dateofbirth, aadhaarnumber, residential_address, balance from bank_accounts where user_id = ?";
 				PreparedStatement prepareStatement = connection.prepareStatement(query);
 				
 				prepareStatement.setInt(1,id);
@@ -636,10 +596,12 @@ public boolean checkPassword(String walletId, String password) throws ClassNotFo
 		        
 		        while (resultSet.next()) {
 		        	BankAccountInfo accountDetails = new BankAccountInfo();
+		        	accountDetails.setPhoneNumber(resultSet.getString("phonenumber"));
 		        	accountDetails.setDOB(resultSet.getString("dateofbirth"));
 		        	accountDetails.setAadharNumber(resultSet.getLong("aadhaarnumber"));
 		        	accountDetails.setAccNo(resultSet.getString("account_number"));
 		        	accountDetails.setAddress(resultSet.getString("residential_address"));
+		        	accountDetails.setAmount(resultSet.getDouble("balance"));
 		        	accountDetailsList.add(accountDetails);
 		 
 		        }
@@ -660,7 +622,7 @@ public boolean checkPassword(String walletId, String password) throws ClassNotFo
 		    
 		    try {
 		        Connection connection = ConnectUtil.getConnection();
-		        String query = "select * from wallets where user_id = ?";
+		        String query = "select wallet_id, user_id, balance, qr from wallets where user_id = ?";
 				PreparedStatement prepareStatement = connection.prepareStatement(query);
 				
 				prepareStatement.setInt(1,id);
@@ -691,7 +653,7 @@ public boolean checkPassword(String walletId, String password) throws ClassNotFo
 		    
 		    try {
 		        Connection connection = ConnectUtil.getConnection();
-		        String query = "select * from wallets where wallet_id = ?";
+		        String query = "select wallet_id, user_id, balance, qr from wallets where wallet_id = ?";
 				PreparedStatement prepareStatement = connection.prepareStatement(query);
 				
 				prepareStatement.setString(1,walletId);
@@ -716,10 +678,43 @@ public boolean checkPassword(String walletId, String password) throws ClassNotFo
 		    return walletDetailsList;
 	}
 	
+	public ArrayList<TransactionInfo> readTransactionHistory(String walletId) throws ClassNotFoundException{
+		
+		 ArrayList<TransactionInfo> historyDetailsList = new ArrayList<>();
+		    
+		    try {
+		        Connection connection = ConnectUtil.getConnection();
+		        String query = "select transaction_id, sender_wallet_id, receiver_wallet_id, DataAndTime, amount from transactions where sender_wallet_id = ? order by DataAndTime desc ";
+				PreparedStatement prepareStatement = connection.prepareStatement(query);
+				
+				prepareStatement.setString(1,walletId);
+				
+		        ResultSet resultSet = prepareStatement.executeQuery();
+		        
+		        while (resultSet.next()) {
+		        	TransactionInfo transactionDetails = new TransactionInfo();
+		        	transactionDetails.setTransactionId(resultSet.getString("transaction_id"));
+		        	transactionDetails.setSenderWalletID(resultSet.getString("sender_wallet_id"));
+		        	transactionDetails.setReceiverWalletID(resultSet.getString("receiver_wallet_id"));
+		        	transactionDetails.setDateAndTime(resultSet.getString("DataAndTime"));
+		        	transactionDetails.setAmountTransfered(resultSet.getDouble("amount"));
+		        	historyDetailsList.add(transactionDetails);
+
+		        }
+		        
+		        resultSet.close();
+		        prepareStatement.close();
+		        connection.close();
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+		    }
+		    
+		    return historyDetailsList;
+	}
+	
 	public double getWalletBalance(int id) throws ClassNotFoundException, SQLException {
 		
-		ConnectUtil connect = new ConnectUtil();
-		Connection connection = connect.getConnection();
+		Connection connection = ConnectUtil.getConnection();
 		
 		String query = "select balance from wallets where user_id = ?";
 		
@@ -742,25 +737,22 @@ public boolean checkPassword(String walletId, String password) throws ClassNotFo
 	}
 	
 	public void updateWalletBalance(double balance, String walletId) throws ClassNotFoundException, SQLException {
-		ConnectUtil connect = new ConnectUtil();
-		Connection connection = connect.getConnection();
+
+		Connection connection = ConnectUtil.getConnection();
 		
 		double amountToUpdate = balance + getWalletBalance(walletId);
-		
+		System.out.println("amount to update : " + amountToUpdate);
 		String query = "update wallets set balance = ? where wallet_id = ?";
 		
 		PreparedStatement prepareStatement = connection.prepareStatement(query);
 		
 		prepareStatement.setDouble(1, amountToUpdate);
 		prepareStatement.setString(2, walletId);
-		
-		int rows = prepareStatement.executeUpdate();
-		
-		System.out.println("Rows Updated : " + rows);
+
+		prepareStatement.executeUpdate();
 	}
 	
 	public double getWalletBalance(String walletId) throws ClassNotFoundException, SQLException {
-		ConnectUtil connect = new ConnectUtil();
 		Connection connection = ConnectUtil.getConnection();
 
 		String query = "Select balance from wallets where wallet_id = ?";
@@ -783,8 +775,7 @@ public boolean checkPassword(String walletId, String password) throws ClassNotFo
 	}
 	
 	public void deductBankBalance(int id, double amount) throws ClassNotFoundException, SQLException {
-		ConnectUtil connect = new ConnectUtil();
-		Connection connection = connect.getConnection();
+		Connection connection = ConnectUtil.getConnection();
 		
 		double updatedAmount = getBalance(id) - amount;
 		
@@ -795,14 +786,12 @@ public boolean checkPassword(String walletId, String password) throws ClassNotFo
 		prepareStatement.setDouble(1, updatedAmount);
 		prepareStatement.setInt(2, id);
 		
-		int rows = prepareStatement.executeUpdate();
-		System.out.println("Balance Updated : " + rows);
-		
+		prepareStatement.executeUpdate();
 	}
 	
 	public void deductWalletBalance(String walletId, double amount) throws ClassNotFoundException, SQLException {
-		ConnectUtil connect = new ConnectUtil();
-		Connection connection = connect.getConnection();
+
+		Connection connection = ConnectUtil.getConnection();
 		
 		double updatedAmount = getWalletBalance(walletId) - amount;
 		
@@ -812,17 +801,13 @@ public boolean checkPassword(String walletId, String password) throws ClassNotFo
 		
 		prepareStatement.setDouble(1, updatedAmount);
 		prepareStatement.setString(2, walletId);
-		
-		int rows = prepareStatement.executeUpdate();
-		System.out.println("Balance Updated : " + rows);
-		
-		
+				
+		prepareStatement.executeUpdate();
 	}
 	
 	public void updateTransactionHistory(String senderId, String receiverId, double amount) throws ClassNotFoundException, SQLException {
-		
-		ConnectUtil connect = new ConnectUtil();
-		Connection connection = connect.getConnection();
+
+		Connection connection = ConnectUtil.getConnection();
 		
 		String query = "insert into transactions values (?,?,?,?,?)";
 		
@@ -834,8 +819,6 @@ public boolean checkPassword(String walletId, String password) throws ClassNotFo
 		prepareStatement.setString(4, LocalDateTime.now().toString());
 		prepareStatement.setDouble(5, amount);
 		
-		int rows = prepareStatement.executeUpdate();
-		System.out.println("Transaction update : " + rows);
-		
+		prepareStatement.executeUpdate();
 	}
 }
