@@ -100,7 +100,7 @@
     			String receiverId = request.getParameter("walletId");
  				System.out.println("parsed Value in mobile : " + id);
                 ServerManager manager = new ServerManager();
-                DynamicQR qr = new DynamicQR();
+           
              %>
         <h2>Wallet Transfer</h2>
         <form action="Transfers" method="post">

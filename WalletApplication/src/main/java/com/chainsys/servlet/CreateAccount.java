@@ -78,7 +78,7 @@ public class CreateAccount extends HttpServlet {
 		}
 		else if(choice.equals("depositAmount"))
 		{
-			
+			System.out.println(">=====<");
 			final String message = "invalidateMessage";
 			try {
 				int id = (int) session.getAttribute(userId);
@@ -93,7 +93,7 @@ public class CreateAccount extends HttpServlet {
 				
 				if(manager.checkAccountNumber(id, accountNumber) && manager.checkPassword(id,password))
 				{	
-
+					System.out.println("<----->");
 					amount += manager.getAvailableBalance(accountNumber);
 					manager.depositAmount(accountNumber, amount);
 					String balance = String.valueOf(manager.getBalance(id));

@@ -40,6 +40,11 @@ public class CardTransfer extends HttpServlet {
 		if(choice.equals("createCard")){
 			
 			int userId = (int) session.getAttribute("userid");
+			try {
+				manager.deductionForCardApply(userId);
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
 			cardInfo.setId(userId);
 			long cardNumber = manager.digipayCardNumberGenerator();
 			cardInfo.setCardNumber(cardNumber);

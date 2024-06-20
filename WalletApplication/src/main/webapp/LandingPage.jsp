@@ -83,7 +83,7 @@ body {
 }
 
 #registerBtn {
-	background-color: #483D8B;
+	background-color: #3c445c;
 	border: none;
 	color: white;
 	width: 30%;
@@ -406,6 +406,42 @@ to {
    		
    } */
 
+#billsDiv{
+	height: 50vh;
+	background-color: whitesmoke;
+	position: relative;
+	display: flex;
+}
+
+#billTypes{
+	display: flex;
+	padding: 40px;
+	padding-top: 70px;
+	gap: 40px;
+}
+
+.bill-type img{
+opacity: 60%;
+}
+
+.bill-type img:hover{
+opacity: 100%;
+}
+
+#billCategory{
+	padding: 30px;
+	padding-top: 70px;
+}
+
+#billsDiv a{
+	text-decoration: none;
+	color: black;
+	font-weight: bolder;
+}
+
+#billsDiv a:hover{
+	transition: ease;
+}
 
 </style>
 <body>
@@ -431,7 +467,7 @@ to {
 		<div id="optionsDiv">
 			<div id="contentDiv">
 				<a id="help" style="padding-top: 10px;">Help</a> 
-				<a id="registerBtn" href="LoginPage.jsp" style="padding-top: 10px;">LogIN</a>
+				<a id="login" href="LoginPage.jsp" style="padding-top: 10px;">LogIN</a>
 				
 				<% 
 					if(session.getAttribute("userName") == null){
@@ -561,6 +597,62 @@ to {
 			</div>
 		</div>
 	</div>
+<div id="billsDiv">
+    <div id="billCategory" class="bill-category">
+        <div class="category-heading">
+            <h2>Bills &amp; Recharge</h2>
+            <img src="https://akam.cdn.jdmagicbox.com/images/icontent/newwap/web2022/bharat_billpay.svg" alt="Bills &amp; Recharge Icon">
+        </div>
+        <p>Pay your bills &amp; recharge instantly with Justdial</p>
+        <a href="https://www.justdial.com/online-bill-payment">Explore More</a>
+    </div>
+
+    <div id="billTypes" class="bill-types">
+        <div class="bill-type">
+            <a href="/online-bill-payment/mobile-recharge">
+                <img src="https://akam.cdn.jdmagicbox.com/images/icontent/newwap/web2022/bt_mobile.svg?w=128&amp;q=75" alt="Mobile">
+                <p>Mobile</p>
+            </a>
+        </div>
+        
+        <div class="bill-type">
+            <a href="/online-bill-payment/electricity">
+                <img src="https://akam.cdn.jdmagicbox.com/images/icontent/newwap/web2022/bt_electricity.svg?w=128&amp;q=75" alt="Electricity">
+                <p>Electricity</p>
+            </a>
+        </div>
+        
+        <div class="bill-type">
+            <a href="/online-bill-payment/dth-recharge">
+                <img src="https://akam.cdn.jdmagicbox.com/images/icontent/newwap/web2022/bt_dth.svg?w=128&amp;q=75" alt="DTH">
+                <p>DTH</p>
+            </a>
+        </div>
+        
+        <div class="bill-type">
+            <a href="/online-bill-payment/water">
+                <img src="https://akam.cdn.jdmagicbox.com/images/icontent/newwap/web2022/bt_water.svg?w=128&amp;q=75" alt="Water">
+                <p>Water</p>
+            </a>
+        </div>
+        
+        <div class="bill-type">
+            <a href="/online-bill-payment/gas">
+                <img src="https://akam.cdn.jdmagicbox.com/images/icontent/newwap/web2022/bt_gas.svg?w=128&amp;q=75" alt="Gas">
+                <p>Gas</p>
+            </a>
+        </div>
+        
+        <div class="bill-type">
+            <a href="/online-bill-payment/insurance-premium">
+                <img src="https://akam.cdn.jdmagicbox.com/images/icontent/newwap/web2022/bt_insurance.svg?w=128&amp;q=75" alt="Insurance">
+                <p>Insurance</p>
+            </a>
+        </div>
+    </div>
+</div>
+
+	
 	<div id="footerDiv">
 		<div id="mediaTag">
 			<div>

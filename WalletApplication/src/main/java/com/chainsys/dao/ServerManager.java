@@ -339,7 +339,7 @@ public class ServerManager {
 
 	        try (ResultSet rows = prepStatement.executeQuery()) {
 	            if (rows.next()) {
-	                String storedPassword = rows.getString(password);
+	                String storedPassword = rows.getString("password");
 	                return password.equals(storedPassword);
 	            }
 	        }
@@ -463,7 +463,7 @@ public class ServerManager {
 
 	        try (ResultSet rows = prepareStatement.executeQuery()) {
 	            if (rows.next()) {
-	                balance = rows.getInt(balance);
+	                balance = rows.getInt(balanceText);
 	            }
 	        }
 	    } catch (SQLException e) {
@@ -878,6 +878,43 @@ public class ServerManager {
 			
 			prepareStatement.executeUpdate();
 		}
+	}
+	
+	public boolean getUserIdFromCards(int userId) throws ClassNotFoundException, SQLException {
+		String query = "select user_id from cards where user_id = ?";
+		
+		try(Connection connection = ConnectUtil.getConnection();
+				PreparedStatement prepareStatement = connection.prepareStatement(query)){
+			prepareStatement.setInt(1, userId);
+			
+			 try (ResultSet rows = prepareStatement.executeQuery()) {
+		            while (rows.next()) {
+		                return true;
+		            }
+		        }
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+		    }
+		    return false;
+		}
+
+	public void deductionForCardApply(int userId) throws ClassNotFoundException {
+		String query = "update wallets set balance = ? where user_id = ?";
+	    
+	    try (Connection connection = ConnectUtil.getConnection();
+	         PreparedStatement prepareStatement = connection.prepareStatement(query)) {
+	        
+	        double updatedAmount = getWalletBalance(userId) - 200;
+	        
+	        prepareStatement.setDouble(1, updatedAmount);
+	        prepareStatement.setInt(2, userId);
+	        
+	        prepareStatement.executeUpdate();
+	        
+	    } catch (SQLException e) {
+	        
+	        e.printStackTrace(); 
+	    }
 	}
 
 }

@@ -436,6 +436,12 @@ body {
 	
 	background-color: #6c7484;
 }
+
+#getCard{
+	position: relative;
+	left: 120px;
+}
+
 </style>
 <body>
     <div class="container rounded bg-white mt-2 mb-2"  style="box-shadow: 0 0 10px 5px #3c455c; height: 95vh;">
@@ -509,21 +515,34 @@ body {
                     </div><br>
            <%} %> 
 
-
- <div id="debitCard" class="card-mockup flex-vertical snipcss0-0-0-1 snipcss-c6oPp">
-    <img id="logo" src="images/DigiPayNoBG.png" alt="logo" height="40px" width="40px" ><br>
-    <div class="snipcss0-1-1-3">
+			<%
+				if(server.getUserIdFromCards(userId)){
+			%>	
+			<div id="debitCard" class="card-mockup flex-vertical snipcss0-0-0-1 snipcss-c6oPp">
+		    <img id="logo" src="images/DigiPayNoBG.png" alt="logo" height="40px" width="40px" ><br>
+		    <div class="snipcss0-1-1-3">
+    	<%
+    		String userName = server.getUserName(userId);
+    	%>
         <strong class="snipcss0-2-3-4">
-            <div id="name_mock" class="size-md pb-sm uppercase ellipsis snipcss0-3-4-5" style=""> mr. Cardholder </div>
+            <div id="name_mock" class="size-md pb-sm uppercase ellipsis snipcss0-3-4-5" style="">Mr. <%= userName %></div>
         </strong>
         <% 
-        System.out.println("<---> ");
         	List<CardInfo> cardDetails = server.readCardDetails(userId);
             for(CardInfo cardInfo : cardDetails){
         %>
         <div class="size-md pb-md snipcss0-2-3-6">
             <strong class="snipcss0-3-6-7">
-                <span id="carddigits_mock" class="snipcss0-4-7-8"><%= cardInfo.getCardNumber() %></span>
+            <%
+            String cardNumber = Long.toString(cardInfo.getCardNumber());
+
+            StringBuilder formattedNumber = new StringBuilder();
+            for (int i = 0; i < cardNumber.length(); i += 4) {
+                String group = cardNumber.substring(i, Math.min(i + 4, cardNumber.length()));
+                formattedNumber.append(group).append(" ");
+            }
+            %>
+                <span id="carddigits_mock" class="snipcss0-4-7-8"><%= formattedNumber %></span>
                 <%System.out.println("form frontend ---> " + cardInfo.getCardNumber()); %>
             </strong>
         </div>
@@ -548,9 +567,40 @@ body {
         </div>
     </div>
 </div> 
-	
+			<%}else{ %>
+			<div>
+				<div id="debitCard" class="card-mockup flex-vertical snipcss0-0-0-1 snipcss-c6oPp">
+		    <img id="logo" src="images/DigiPayNoBG.png" alt="logo" height="40px" width="40px" ><br>
+		    <div class="snipcss0-1-1-3">
+        <strong class="snipcss0-2-3-4">
+            <div id="name_mock" class="size-md pb-sm uppercase ellipsis snipcss0-3-4-5" style="">Mr. CardHolder</div>
+        </strong>
 
-			<button onclick="window.location.href='CardTermsAndConditions.jsp'" >Get Card</button>
+        <div class="size-md pb-md snipcss0-2-3-6">
+            <strong class="snipcss0-3-6-7">
+                <span id="carddigits_mock" class="snipcss0-4-7-8">xxxx xxxx xxxx xxxx</span>
+           </strong>
+        </div>
+        <div class="flex-between flex-vertical-center snipcss0-2-3-9">
+            <strong class="size-md snipcss0-3-9-10">
+                <span class="snipcss0-4-10-11">Expiry Date : </span><span id="mm_mock" class="snipcss0-4-10-12">mm</span> / <span id="yy_mock" class="snipcss0-4-10-13">yyyy</span>
+            </strong>
+            <strong class="size-md snipcss0-3-9-10">
+                <span class="snipcss0-4-10-11">CVV : </span><span id="mm_mock" class="snipcss0-4-10-12">000</span>
+            </strong>
+
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="40px" height="40px" class="snipcss0-3-9-14">
+                <path fill="#1565C0" d="M45,35c0,2.209-1.791,4-4,4H7c-2.209,0-4-1.791-4-4V13c0-2.209,1.791-4,4-4h34c2.209,0,4,1.791,4,4V35z"></path>
+                <path fill="#FFF" d="M15.186 19l-2.626 7.832c0 0-.667-3.313-.733-3.729-1.495-3.411-3.701-3.221-3.701-3.221L10.726 30v-.002h3.161L18.258 19H15.186zM17.689 30L20.56 30 22.296 19 19.389 19zM38.008 19h-3.021l-4.71 11h2.852l.588-1.571h3.596L37.619 30h2.613L38.008 19zM34.513 26.328l1.563-4.157.818 4.157H34.513zM26.369 22.206c0-.606.498-1.057 1.926-1.057.928 0 1.991.674 1.991.674l.466-2.309c0 0-1.358-.515-2.691-.515-3.019 0-4.576 1.444-4.576 3.272 0 3.306 3.979 2.853 3.979 4.551 0 .291-.231.964-1.888.964-1.662 0-2.759-.609-2.759-.609l-.495 2.216c0 0 1.063.606 3.117.606 2.059 0 4.915-1.54 4.915-3.752C30.354 23.586 26.369 23.394 26.369 22.206z"></path>
+                <path fill="#FFC107" d="M12.212,24.945l-0.966-4.748c0,0-0.437-1.029-1.573-1.029c-1.136,0-4.44,0-4.44,0S10.894,20.84,12.212,24.945z"></path>
+            </svg>
+        </div>
+    </div>
+</div> 
+</div>
+<button id="getCard" class="btn btn-primary profile-button" onclick="window.location.href='CardTermsAndConditions.jsp'" >Get Card</button>
+<%} %>
+			
 
 
                 </div>
