@@ -2,7 +2,7 @@
 <%@ page import="com.chainsys.dao.ServerManager" %>
 <%@ page import="com.chainsys.dao.DynamicQR" %>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">

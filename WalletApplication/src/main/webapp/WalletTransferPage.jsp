@@ -3,7 +3,7 @@
 <%@ page import="com.chainsys.dao.ServerManager" %>
 <%@ page import="java.util.ArrayList" %>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Wallet Transfer</title>
@@ -157,7 +157,7 @@
         </div>
         <div id="qrBar" class="bar">
             <div id="qrCodeDiv"></div>
-            <a href="#" class="closeBtn" onclick="closeQr()">&times;</a>
+            <button class="closeBtn" onclick="closeQr()">&times;</button>
         </div>
             <div class="form-group">
                 <label for="senderWalletId">Sender Wallet ID:</label>

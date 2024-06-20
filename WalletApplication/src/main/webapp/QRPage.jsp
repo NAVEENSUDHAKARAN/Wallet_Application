@@ -1,10 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.List" %>
 <%@ page import="com.chainsys.model.WalletIdInfo" %>
 <%@ page import="com.chainsys.dao.ServerManager" %>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="ISO-8859-1">
 <title>QR Page</title>
@@ -32,14 +32,14 @@
 	
 		ServerManager manager = new ServerManager();
 
-    ArrayList<WalletIdInfo> walletInfo = manager.readWalletDetails(receiverId);
+    List<WalletIdInfo> walletInfo = manager.readWalletDetails(receiverId);
     for(WalletIdInfo details : walletInfo){
     	byte[] imageData = details.getImage(); 
         if (imageData != null) {
             String base64Image = java.util.Base64.getEncoder().encodeToString(imageData);
 		%>
 			<div id="image">
-				<img id="qrcode" alt="image" src="data:image/png;base64,<%= base64Image %>">
+				<img id="qrcode" alt="not working" src="data:image/png;base64,<%= base64Image %>">
 			</div>
 			 
 			

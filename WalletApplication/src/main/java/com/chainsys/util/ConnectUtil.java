@@ -6,6 +6,10 @@ import java.sql.SQLException;
 
 public class ConnectUtil {
 
+	private ConnectUtil() {
+        throw new IllegalStateException("Utility class");
+    }
+	
 	public static Connection getConnection() throws ClassNotFoundException, SQLException {
 
 		Class.forName("com.mysql.cj.jdbc.Driver");

@@ -23,28 +23,21 @@ public class Logout extends HttpServlet {
 
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
+    @Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession(false);
-		//doGet(request, response);
 		
 		
 		if(session != null)
 		{
 			 session.invalidate();
 		}
-				
-		 response.sendRedirect("LandingPage.jsp");
+		try {
+		    response.sendRedirect("LandingPage.jsp");
+		} catch (IOException e) {
+		    e.printStackTrace(); 
+		}
+
 	}
 
 }

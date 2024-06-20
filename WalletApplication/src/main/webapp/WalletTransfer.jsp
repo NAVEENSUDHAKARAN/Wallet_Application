@@ -3,9 +3,9 @@
 <%@ page import="com.chainsys.model.WalletIdInfo" %>
 <%@ page import="com.chainsys.model.TransactionInfo" %>
 <%@ page import="com.chainsys.dao.ServerManager" %>
-<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.List" %>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="ISO-8859-1">
 <title>Wallet Transfer</title>
@@ -132,11 +132,11 @@
                 <p class="mb-0">Receiver WalletID</p>
               </div>
               <div class="col-sm-9">
-                <input style="width: 50%; border: hidden;" class="text-muted mb-0" type="text" name="receiverWalletId" required >&nbsp;&nbsp;&nbsp;<button type="button" onclick="generateQRCode()" id="btn" >Generate QR</button>
+                <input style="width: 50%; border: hidden;" class="text-muted mb-0" type="text" name="receiverWalletID" required >&nbsp;&nbsp;&nbsp;<button type="button" onclick="generateQRCode()" id="btn" >Generate QR</button>
               </div>
               <div id="qrBar" class="bar">
 	            <div id="qrCodeDiv"></div>
-	            <a href="#" class="closeBtn" onclick="closeQr()">&times;</a>
+	            <button class="closeBtn" onclick="closeQr()">&times;</button>
 	        </div>
             </div>
             <hr>
@@ -184,7 +184,7 @@
             </thead>
        <%
        		String senderWalletId = manager.getWalletId(id);
-       		ArrayList<TransactionInfo> transactionDetails = manager.readTransactionHistory(senderWalletId);
+       		List<TransactionInfo> transactionDetails = manager.readTransactionHistory(senderWalletId);
        		for(TransactionInfo details : transactionDetails){
        %>
             <tbody>

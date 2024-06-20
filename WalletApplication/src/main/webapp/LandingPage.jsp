@@ -2,7 +2,7 @@
 	pageEncoding="ISO-8859-1"%>
 <%@ page import="com.chainsys.dao.ServerManager" %>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="ISO-8859-1">
 
@@ -83,7 +83,7 @@ body {
 }
 
 #registerBtn {
-	background-color: #3c445c;
+	background-color: #483D8B;
 	border: none;
 	color: white;
 	width: 30%;
@@ -431,7 +431,7 @@ to {
 		<div id="optionsDiv">
 			<div id="contentDiv">
 				<a id="help" style="padding-top: 10px;">Help</a> 
-				<a id="login" href="LoginPage.jsp" style="padding-top: 10px;">LogIN</a>
+				<a id="registerBtn" href="LoginPage.jsp" style="padding-top: 10px;">LogIN</a>
 				
 				<% 
 					if(session.getAttribute("userName") == null){
@@ -501,7 +501,7 @@ to {
 
 			<div id="innerBtns">
 				<button id="innerSignUp"
-					onclick="">About US</button>
+					onclick="window.location.href='AboutUs.jsp'">About US</button>
 				<button id="innerLearnMore">Learn More</button>
 			</div>
 		</div>
@@ -523,10 +523,8 @@ to {
 								width="20px" height="20px">&nbsp; Create Bank Account
 						</h5>
 						<p class="card-text">Create a bank account with Digipay
-							quickly.</p>
-						<a href="CreateBankAccount.jsp"
-							style="background-color: #3c445c; border-color: black;"
-							class="btn btn-primary">Open Account</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a
+							quickly.</p> 
+							<a
 							href="DepositAmount.jsp"
 							style="background-color: #3c445c; border-color: black;"
 							class="btn btn-primary">Deposit Amount</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -552,18 +550,17 @@ to {
 							style="background-color: #3c445c; border-color: black;"
 							class="btn btn-primary">Transfer</button>
 							
+							<button
+							 onclick="window.location.href='LinkAccount.jsp'" 
+							style="background-color: #3c445c; border-color: black;"
+							class="btn btn-primary">Card</button>
+							
 
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	<!-- <div class="container">
-		  <img src="images/DigiPayLogo.png" alt="Avatar" class="image">
-		  <div class="overlay">
-		    <div class="text">Overlay Text</div>
-		  </div>
-	</div> -->
 	<div id="footerDiv">
 		<div id="mediaTag">
 			<div>
@@ -626,7 +623,6 @@ function openTransferDialog() {
                 window.location.href = "WalletTransfer.jsp?id=<%= userId %>";
            <% } %>
         	 
-           <%--  window.location.href = "WalletTransferPage.jsp?id=<%= (int) session.getAttribute("userid") %>"; --%>
         },
         error: function(xhr, status, error) {
             console.error("AJAX error:", error);

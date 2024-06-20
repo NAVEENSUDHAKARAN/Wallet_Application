@@ -2,7 +2,7 @@
 <%@ page import="com.chainsys.model.UserInfo" %>
 <%@ page import="com.chainsys.model.BankAccountInfo" %>
 <%@ page import="com.chainsys.dao.ServerManager" %>
-<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.List" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -92,7 +92,7 @@
     int userId = (int) id.getAttribute("userid");
     System.out.println("id ---> " + userId);
     ServerManager server = new ServerManager();
-    ArrayList<UserInfo> arrList = server.readUserDetails(userId);
+    List<UserInfo> arrList = server.readUserDetails(userId);
     for (UserInfo userInfo : arrList) {
        
 %>
@@ -107,7 +107,7 @@
 <% } %>
 
 <% 
-    ArrayList<BankAccountInfo> arrList1 = server.readAccountDetails(userId);
+    List<BankAccountInfo> arrList1 = server.readAccountDetails(userId);
     for (BankAccountInfo bankAccountInfo : arrList1) { 
 %>
         <label for="dob">Date of Birth:</label>
@@ -116,13 +116,11 @@
         <label for="accountNumber">Account Number:</label>
         <div class="password-container">
             <input type="text" id="accountNumber" name="accountNumber" value="<%= bankAccountInfo.getAccNo() %>" readonly>
-			<!-- <span class="password-toggle" onclick="togglePassword('accountNumber')">Show</span> -->
 		</div>
 		
 		<label for="aadhaarNumber">Aadhaar Number:</label>
 		<div>
 		    <input type="text" id="aadhaarNumber" name="aadhaarNumber" value="<%= bankAccountInfo.getAadharNumber() %>" readonly>
-		    <!-- <span class="password-toggle" onclick="togglePassword('aadhaarNumber')">Show</span> -->
 		</div>
 
 <script>

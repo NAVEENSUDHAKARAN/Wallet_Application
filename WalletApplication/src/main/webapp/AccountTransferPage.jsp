@@ -2,9 +2,9 @@
 <%@ page import="com.chainsys.dao.ServerManager" %>
 <%@ page import="com.chainsys.model.UserInfo" %>
 <%@ page import="com.chainsys.model.BankAccountInfo" %>
-<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.List" %>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Send Money</title>
@@ -77,7 +77,7 @@
         <% HttpSession transfers = request.getSession();
            int id = (int) transfers.getAttribute("userid");
            ServerManager manager = new ServerManager();
-           ArrayList<UserInfo> userDetails = manager.readUserDetails(id);
+           List<UserInfo> userDetails = manager.readUserDetails(id);
            for(UserInfo user : userDetails) {
         %>
         <form action="Transfers" method="post">
@@ -88,10 +88,10 @@
             </div>
         <% } %>
         
-        <% ArrayList<BankAccountInfo> accountDetails = manager.readAccountDetails(id);
+        <% List<BankAccountInfo> accountDetails = manager.readAccountDetails(id);
            for(BankAccountInfo accountInfo : accountDetails) {
         %>
-           <!--  <input type="hidden" name="action" value="accountToWallet"> -->
+
             <label for="recipientWalletID">Recipient AccountNumber:</label>
             <div class="accountNumber-container">
                 <input type="text" id="recipientWalletID" name="recipientWalletID" value="<%= accountInfo.getAccNo() %>" required readonly="readonly">

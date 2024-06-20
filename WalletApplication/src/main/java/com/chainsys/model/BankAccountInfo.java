@@ -2,7 +2,12 @@ package com.chainsys.model;
 
 public class BankAccountInfo {
 
-	String fname, lname, phoneNumber, DOB, address, accNo;
+	String fName;
+	String lName;
+	String phoneNumber;
+	String dob;
+	String address;
+	String accNo;
 	long aadharNumber;
 	int userId;
 	double amount;
@@ -29,16 +34,16 @@ public class BankAccountInfo {
 		this.userId = userId;
 	}
 	public String getFname() {
-		return fname;
+		return fName;
 	}
 	public void setFname(String fname) {
-		this.fname = fname;
+		this.fName = fname;
 	}
 	public String getLname() {
-		return lname;
+		return lName;
 	}
 	public void setLname(String lname) {
-		this.lname = lname;
+		this.lName = lname;
 	}
 	public String getPhoneNumber() {
 		return phoneNumber;
@@ -47,10 +52,10 @@ public class BankAccountInfo {
 		this.phoneNumber = phoneNumber;
 	}
 	public String getDOB() {
-		return DOB;
+		return dob;
 	}
 	public void setDOB(String dOB) {
-		DOB = dOB;
+		dob = dOB;
 	}
 	public String getAddress() {
 		return address;

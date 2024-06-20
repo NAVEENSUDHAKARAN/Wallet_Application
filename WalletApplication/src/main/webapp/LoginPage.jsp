@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="ISO-8859-1">
     <title>Login Page</title>
@@ -87,7 +87,7 @@
 </head>
 <body>
     <div class="container">
-        <img id="logo" src="images/DigiPayLogo.png" width="40px" height="40px" >
+        <img id="logo" alt="logo not working" src="images/DigiPayLogo.png" width="40px" height="40px" >
         <h2>Login</h2>
         <form id="loginForm" action="LandingPage" method="post">
             <input type="hidden" name="action" value="logIN" >
@@ -96,7 +96,7 @@
             <input type="submit" value="Login">
         </form>
         <br>
-        <a id="createAccountTag" href="RegistrationForm.jsp" >Create Account</a>
+        <a id="createAccountTag" href="Register.jsp" >Create Account</a>
         
         
         <% String errorMessage = (String)request.getAttribute("error");
@@ -109,7 +109,7 @@
     </div>
     
     <div id="bgDiv">
-        <img src="images/loginpagebg.png" alt="image not working" width="100%" height="100%" > 
+        <img src="images/loginpagebg.png" alt="bg not working" width="100%" height="100%" > 
     </div>
     
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

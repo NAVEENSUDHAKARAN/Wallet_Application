@@ -1,7 +1,10 @@
 package com.chainsys.model;
 
 public class UserInfo {
-	String firstName, lastName,email,password;
+	String firstName;
+	String lastName;
+	String email;
+	String password;
 
 	public String getFirstName() {
 		return firstName;
